@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - Employer Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #5f6368;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            background-color: #f1f3f4;
+        }
+        
+        .nav-links a.active {
+            color: #1a73e8;
+            background-color: #e8f0fe;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: #202124;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            color: #5f6368;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .content-container {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 3;
+        }
+        
+        .sidebar {
+            flex: 1;
+        }
+        
+        .form-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            color: #202124;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3c4043;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .requirements-list {
+            list-style-type: none;
+        }
+        
+        .requirements-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .req-input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .add-btn {
+            background-color: #34a853;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e8eaed;
+        }
+        
+        .btn-primary {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0d62d9;
+        }
+        
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: #3c4043;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e8eaed;
+        }
+        
+        .sidebar-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            color: #202124;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .tips-list {
+            list-style-type: none;
+        }
+        
+        .tips-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #5f6368;
+        }
+        
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tip-icon {
+            color: #34a853;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">JobPortal Employers</div>
+            <div class="nav-links">
+                <a href="#" class="active">Post Job</a>
+                <a href="#">Dashboard</a>
+                <a href="#">Applications</a>
+                <a href="#">Account</a>
+            </div>
+        </header>
+        
+        <h1 class="page-title">Post a New Job</h1>
+        <p class="page-subtitle">Fill out the form below to post your job opening and find the right candidate</p>
+        
+        <div class="content-container">
+            <div class="main-content">
+                <div class="form-card">
+                    <h2 class="card-title">Job Details</h2>
+                    
+                    <form id="jobPostForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="jobTitle">Job Title *</label>
+                                <input type="text" id="jobTitle" class="form-control" placeholder="e.g. Software Engineer" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="location">Location *</label>
+                                <input type="text" id="location" class="form-control" placeholder="e.g. Sanepa, Kathmandu" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="jobType">Job Type *</label>
+                                <select id="jobType" class="form-control" required>
+                                    <option value="">Select job type</option>
+                                    <option value="Full Time">Full Time</option>
+                                    <option value="Part Time">Part Time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="salaryRange">Salary Range</label>
+                                <input type="text" id="salaryRange" class="form-control" placeholder="e.g. NRs. 25,000 – 35,000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="expiryDate">Application Deadline *</label>
+                                <input type="date" id="expiryDate" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobDescription">Job Description *</label>
+                            <textarea id="jobDescription" class="form-control" placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="form-card">
+                    <h2 class="card-title">Requirements</h2>
+                    
+                    <ul class="requirements-list" id="requirementsList">
+                        <li>
+                            <input type="text" class="form-control req-input" placeholder="e.g. Bachelor's degree in Computer Science">
+                            <button type="button" class="remove-btn">×</button>
+                        </li>
+                        <li>
+                            <input type="text" class="form-control req-input" placeholder="e.g. Experience with Python, JavaScript">
+                            <button type="button" class="remove-btn">×</button>
+                        </li>
+                    </ul>
+                    
+                    <button type="button" class="add-btn" id="addRequirement">
+                        Add Requirement
+                    </button>
+                </div>
+                
+                <div class="form-card">
+                    <h2 class="card-title">Benefits</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="e.g. Health insurance">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="e.g. Paid leave">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="e.g. Flexible working hours">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="e.g. Remote work options">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submitBtn">Post Job</button>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Tips for a Good Job Post</h3>
+                    <ul class="tips-list">
+                        <li>Be specific about job requirements</li>
+                        <li>Include salary range to attract more applicants</li>
+                        <li>Highlight company culture and benefits</li>
+                        <li>Use clear, concise language</li>
+                        <li>Set a realistic application deadline</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 30);
+            const expiryDateString = expiryDate.toISOString().split('T')[0];
+            document.getElementById('expiryDate').value = expiryDateString;
+            
+            document.getElementById('addRequirement').addEventListener('click', function() {
+                const requirementsList = document.getElementById('requirementsList');
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <input type="text" class="form-control req-input" placeholder="e.g. Additional requirement">
+                    <button type="button" class="remove-btn">×</button>
+                `;
+                requirementsList.appendChild(li);
+                
+                li.querySelector('.remove-btn').addEventListener('click', function() {
+                    li.remove();
+                });
+            });
+            
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+            
+            document.getElementById('submitBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const requiredFields = ['jobTitle', 'companyName', 'location', 'jobType', 'expiryDate', 'jobDescription'];
+                let isValid = true;
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.style.borderColor = '#f44336';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#dadce0';
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields marked with *');
+                    return;
+                }
+                
+                alert('Job posted successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ from .views import home,register
 
 urlpatterns = [
     path('', home, name='home'),
-  path("register/", register, name="register"),
+    path("register/", register, name="register"),
+
   
 ]
