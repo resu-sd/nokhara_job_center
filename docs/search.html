@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Jobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+        .custom-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 2000;
+          }
+          
+          .logo img {
+            height: 48px;
+          }
+          
+          .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
+          
+          .menu-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+          }
+          
+          .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 17px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid black;
+            background: transparent;
+            color: black;
+          }
+          
+          .btn:hover {
+            background: #435099ff;
+            color: white;
+            border-color: #435099ff;
+          }
+          
+          .btn-primary {
+            padding: 15px 35px;
+            font-size: 18px;
+            background-color: rgba(43, 58, 143, 1);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+          
+          .btn-primary:hover {
+            background-color: #435099ff;
+          }
+          .footer-container.layout {
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 20px;
+                  justify-content: space-between;
+                  max-width: 1200px;  
+                  margin: 0 auto;
+                  padding: 0 20px; /* aligns with main content */
+                }
+          
+                .footer-column h4 {
+                  font-size: 16px;
+                  margin-bottom: 10px;
+                  color: #f9fafb;
+                  font-weight: 600;
+                }
+          
+                .footer-column ul {
+                  list-style: none;
+                  padding: 0;
+                }
+          
+                .footer-column ul li {
+                  margin-bottom: 5px;
+                
+                }
+                .footer-column ul li a {
+                  color: #d1d5db;
+                  text-decoration: none;
+                  transition: color 0.3s ease;
+                }
+                .footer-column ul li a:hover {
+                  color: #ffffff;
+                  text-decoration: underline;
+                }
+                .footer-column p {
+                  margin: 5px 0;
+                }
+          
+                /* Footer bottom text */
+                .footer-bottom.layout {
+                  border-top: 1px solid #444;
+                  padding-top: 10px;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding-left: 20px; /* same as content */
+                }
+          
+                .footer-bottom p {
+                  margin: 0;
+                  font-size: 14px;
+                }
+              
+                .site-footer {
+                  background-color: #444b53;
+                  color: #ffffff;
+                  padding: 40px 0 20px;
+                  font-size: 14px;
+                  margin-top: 80px;
+                }
+          
+        :root {
+            --primary: #1e40af;
+            --secondary: #697096;
+            --accent: #968F69;
+            --bg: #f4f6f8;
+            --white: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .page-header {
+    background: linear-gradient(to right, #697096, #1e40af);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-top: 80px; /* push below fixed navbar */
+}
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            margin: 0;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 40px 15px;
+                margin: -20px -20px 20px -20px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+        }
+        
+        .search-box {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-form { grid-template-columns: 1fr; }
+        }
+        
+        .search-form input {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .btn-search {
+            padding: 14px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-search:hover {
+            background: #1a3a9d;
+        }
+        
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .filter-chip {
+            padding: 8px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .content { grid-template-columns: 1fr; }
+        }
+        
+        .sidebar {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .apply-info {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .apply-info h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+        }
+        
+        .apply-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-group h4 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+        
+        .results {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .results-count {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        
+        .job-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .nav-links li:last-child a {
+    margin-right: 20px; /* adds space after Post Job button */
+}
+        .job-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(150, 143, 105, 0.15);
+        }
+        
+        .job-id {
+            float: right;
+            background: var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .job-title {
+            color: var(--primary);
+            font-size: 17px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+        
+        .company {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .job-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            padding: 4px 10px;
+            background: var(--bg);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .visit-btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+            font-weight: 600;
+            text-decoration: none; 
+        }
+        
+        .visit-btn:hover {
+            background: #1cda38ff;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 25px;
+        }
+        
+        .page {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .page.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .page:hover:not(.active) {
+            background: var(--bg);
+        }
+        
+        .mobile-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-btn { display: block; }
+            .sidebar { display: none; }
+            .sidebar.active { display: block; }
+        }
+        
+        #visit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        #visit-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modalFade 0.3s;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .modal-content .steps {
+            text-align: left;
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .modal-content .steps li {
+            margin: 10px 0;
+        }
+        
+        .modal-close {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .modal-close:hover {
+            background: #867d5e;
+        }
+        
+        .office-highlight {
+            background: #fff3cd !important;
+            border-left: 4px solid var(--accent) !important;
+            transition: background 0.3s;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+
+    <nav class="custom-navbar">
+      <a href="home.html" class="logo">
+        <img src="logo.png" alt="Nokhara Job Center" />
+      </a>
+    
+    
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    
+      <ul class="nav-links" id="navLinks">
+        <li><a href="login.html" class="btn">Login</a></li>
+        <li><a href="register.html" class="btn">Register</a></li>
+        <li>
+          <a href="post_job.html" class="btn">Post Job</a>
+        </li>
+        
+      </ul>
+    </nav>
+    
+   
+    <div class="page-header" style="margin-top: 40px;">
+        <h1>Find Your Dream Job</h1>
+        <p>Browse job opportunities and visit our office to apply</p>
+    </div>
+    
+
+    <div class="container">
+        <div class="search-box">
+            <form class="search-form">
+                <input type="text" placeholder="Job title or keyword" value="Software Engineer">
+                <input type="text" placeholder="Location" value="Kathmandu">
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+            <div class="filter-chips">
+                <span class="filter-chip active">All Jobs</span>
+                <span class="filter-chip">Full Time</span>
+                <span class="filter-chip">Part Time</span>
+                <span class="filter-chip">Remote</span>
+                <span class="filter-chip">Internship</span>
+            </div>
+        </div>
+
+        <button class="mobile-btn" id="mobileBtn">Show Filters</button>
+
+        <div class="content">
+            <div class="sidebar" id="sidebar">
+                <div class="filter-group">
+                    <h4>Job Type</h4>
+                    <label class="filter-option"><input type="checkbox" checked> Full Time</label>
+                    <label class="filter-option"><input type="checkbox"> Part Time</label>
+                    <label class="filter-option"><input type="checkbox" checked> Remote</label>
+                    <label class="filter-option"><input type="checkbox"> Contract</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Experience Level</h4>
+                    <label class="filter-option"><input type="checkbox"> Entry Level</label>
+                    <label class="filter-option"><input type="checkbox" checked> Mid Level</label>
+                    <label class="filter-option"><input type="checkbox"> Senior Level</label>
+                </div>
+
+                <button class="btn-search" style="width:100%;" onclick="applyFilters()">Apply Filters</button>
+            </div>
+
+            <div class="results">
+                <div class="results-header">
+                    <div class="results-count">1-10 of 245 jobs</div>
+                    <select class="sort-select">
+                        <option>Relevance</option>
+                        <option>Date Posted</option>
+                        <option>Salary High to Low</option>
+                    </select>
+                </div>
+                <div id="jobs-container">
+                </div>
+                <div class="pagination" id="pagination">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="visit-modal">
+        <div class="modal-content">
+            <h3 id="modal-job-id">Apply for Job</h3>
+            <p>To apply for this position:</p>
+            <ol class="steps">
+                <li>Note the <strong>Job ID</strong> mentioned above</li>
+                <li>Prepare your CV and required documents</li>
+                <li>Visit our office during working hours</li>
+                <li>Submit your application in person</li>
+            </ol>
+            <p><strong>Important:</strong> No online applications accepted.</p>
+            <button class="modal-close" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        const jobData = [
+            { id: 'NT001', title: 'Senior Python Developer', company: 'Tech Solutions Inc.', location: 'Kathmandu', salary: 'Rs 80,000 - 120,000/month', type: 'Full Time', posted: '2 days ago', tags: ['Python', 'Django', 'PostgreSQL', 'REST API'] },
+            { id: 'NT002', title: 'React.js Developer', company: 'Digital Innovations', location: 'Remote', salary: 'Rs 60,000 - 100,000/month', type: 'Full Time', posted: '1 day ago', tags: ['React', 'TypeScript', 'CSS', 'Frontend'] },
+            { id: 'NT003', title: 'DevOps Engineer', company: 'Cloud Systems Nepal', location: 'Lalitpur', salary: 'Rs 90,000 - 150,000/month', type: 'Full Time', posted: '3 days ago', tags: ['AWS', 'Docker', 'Kubernetes', 'CI/CD'] },
+            { id: 'NT004', title: 'UI/UX Designer', company: 'Creative Design Studio', location: 'Pokhara', salary: 'Rs 40,000 - 70,000/month', type: 'Part Time', posted: '5 days ago', tags: ['Figma', 'UI Design', 'UX Research', 'Prototyping'] },
+            { id: 'NT005', title: 'Mobile App Developer', company: 'AppWorks Nepal', location: 'Kathmandu', salary: 'Rs 70,000 - 110,000/month', type: 'Full Time', posted: '1 week ago', tags: ['Flutter', 'React Native', 'Mobile', 'iOS'] },
+            { id: 'NT006', title: 'Data Analyst', company: 'Analytics Pro', location: 'Remote', salary: 'Rs 65,000 - 95,000/month', type: 'Full Time', posted: '4 days ago', tags: ['Python', 'SQL', 'Excel', 'Statistics'] },
+            { id: 'NT007', title: 'System Administrator', company: 'IT Solutions Ltd.', location: 'Kathmandu', salary: 'Rs 55,000 - 85,000/month', type: 'Full Time', posted: '2 days ago', tags: ['Linux', 'Networking', 'Security', 'Windows'] },
+            { id: 'NT008', title: 'Marketing Manager', company: 'Growth Marketing', location: 'Kathmandu', salary: 'Rs 75,000 - 120,000/month', type: 'Full Time', posted: '3 days ago', tags: ['Digital Marketing', 'SEO', 'Social Media', 'Content'] },
+        ];
+
+   
+        const jobsPerPage = 4;
+        let currentPage = 1;
+        document.addEventListener('DOMContentLoaded', function() {
+            renderJobs();
+            renderPagination();
+            const mobileBtn = document.getElementById('mobileBtn');
+            const sidebar = document.getElementById('sidebar');
+            
+            mobileBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                mobileBtn.textContent = sidebar.classList.contains('active') ? 'Hide Filters' : 'Show Filters';
+            });
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFilters();
+                });
+            });
+        });
+        function renderJobs() {
+            const container = document.getElementById('jobs-container');
+            const startIndex = (currentPage - 1) * jobsPerPage;
+            const endIndex = startIndex + jobsPerPage;
+            const jobsToShow = jobData.slice(startIndex, endIndex);
+            
+            container.innerHTML = '';
+            
+            jobsToShow.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.innerHTML = `
+                    <span class="job-id">${job.id}</span>
+                    <h3 class="job-title">${job.title}</h3>
+                    <div class="company">${job.company}</div>
+                    <div class="job-details">
+                        <span>${job.location}</span>
+                        <span>${job.salary}</span>
+                        <span>${job.type}</span>
+                        <span>${job.posted}</span>
+                    </div>
+                    <p class="job-desc">Looking for experienced professional with relevant skills. Visit our office to apply.</p>
+                    <div class="job-footer">
+                        <div class="tags">
+                            ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href="detail.html?id=${job.id}" class="visit-btn">View</a>
+
+                    </div>
+                `;
+                container.appendChild(jobCard);
+            });
+            document.querySelector('.results-count').textContent = 
+                `${startIndex + 1}-${Math.min(endIndex, jobData.length)} of ${jobData.length} jobs`;
+        }
+        function renderPagination() {
+            const totalPages = Math.ceil(jobData.length / jobsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            pagination.innerHTML = '';
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('span');
+                prevBtn.className = 'page';
+                prevBtn.textContent = '← Prev';
+                prevBtn.onclick = () => {
+                    currentPage--;
+                    renderJobs();
+                    renderPagination();
+                };
+                pagination.appendChild(prevBtn);
+            }
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('span');
+                pageBtn.className = 'page' + (i === currentPage ? ' active' : '');
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    renderJobs();
+                    renderPagination();
+                };
+                pagination.appendChild(pageBtn);
+            }
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('span');
+                nextBtn.className = 'page';
+                nextBtn.textContent = 'Next →';
+                nextBtn.onclick = () => {
+                    currentPage++;
+                    renderJobs();
+                    renderPagination();
+                };
+                pagination.appendChild(nextBtn);
+            }
+        }
+        function openModal(jobId) {
+            const modal = document.getElementById('visit-modal');
+            const modalTitle = document.getElementById('modal-job-id');
+            
+            modalTitle.textContent = `Apply for Job ${jobId}`;
+            modal.classList.add('active');
+            const applyInfo = document.getElementById('applyInfo');
+            applyInfo.classList.add('office-highlight');
+            setTimeout(() => {
+                applyInfo.classList.remove('office-highlight');
+            }, 3000);
+        }
+        function closeModal() {
+            document.getElementById('visit-modal').classList.remove('active');
+        }
+        document.getElementById('visit-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        function applyFilters() {
+            renderJobs();
+            renderPagination();
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('mobileBtn').textContent = 'Show Filters';
+            }
+        }
+    </script>
+    <footer class="site-footer">
+        <div class="footer-container layout">
+          <div class="footer-column">
+            <h4>FOR JOBSEEKER</h4>
+            <ul>
+              <li><a href="#">Search Jobs</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>FOR EMPLOYER</h4>
+            <ul>
+              <li><a href="">Login</a></li>
+              <li><a href="#">Recruitment Services</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>ABOUT US</h4>
+            <ul>
+              <li><a href="#">About Nokhara Job Center</a></li>
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>CONTACT US</h4>
+            <p>Pokhara-8,Nagdhunga</p>
+            <p>📞 +977 1 33333</p>
+            <p>✉️ info@nokharajobcenter.com</p>
+          </div>
+        </div>
+      
+        <div class="footer-bottom layout">
+          <p>© 2025 Nokhara Job Center. All Rights Reserved.</p>
+        </div>
+      </footer>
+      
+</body>
+</html>
