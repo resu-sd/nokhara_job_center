@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FAQs | Nokhara Job Center</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
    
  
   <link
@@ -14,7 +14,132 @@
     rel="stylesheet"
   />
 
-  <style>
+
+    <style>.custom-navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        padding: 0 16px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 64px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 2000;
+      }
+      
+      .logo img {
+        height: 48px;
+      }
+      
+      .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .menu-toggle {
+        display: none;
+        font-size: 28px;
+        cursor: pointer;
+      }
+      
+      .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 8px 17px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 2px solid black;
+        background: transparent;
+        color: black;
+      }
+      
+      .btn:hover {
+        background: #435099ff;
+        color: white;
+        border-color: #435099ff;
+      }
+      
+      .btn-primary {
+        padding: 15px 35px;
+        font-size: 18px;
+        background-color: rgba(43, 58, 143, 1);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-primary:hover {
+        background-color: #435099ff;
+      }
+      .footer-container.layout {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 20px;
+              justify-content: space-between;
+              max-width: 1200px;  
+              margin: 0 auto;
+              padding: 0 20px; /* aligns with main content */
+            }
+      
+            .footer-column h4 {
+              font-size: 16px;
+              margin-bottom: 10px;
+              color: #f9fafb;
+              font-weight: 600;
+            }
+      
+            .footer-column ul {
+              list-style: none;
+              padding: 0;
+            }
+      
+            .footer-column ul li {
+              margin-bottom: 5px;
+            
+            }
+            .footer-column ul li a {
+              color: #d1d5db;
+              text-decoration: none;
+              transition: color 0.3s ease;
+            }
+            .footer-column ul li a:hover {
+              color: #ffffff;
+              text-decoration: underline;
+            }
+            .footer-column p {
+              margin: 5px 0;
+            }
+      
+            /* Footer bottom text */
+            .footer-bottom.layout {
+              border-top: 1px solid #444;
+              padding-top: 10px;
+              max-width: 1200px;
+              margin: 0 auto;
+              padding-left: 20px; /* same as content */
+            }
+      
+            .footer-bottom p {
+              margin: 0;
+              font-size: 14px;
+            }
+          
+            .site-footer {
+              background-color: #444b53;
+              color: #ffffff;
+              padding: 40px 0 20px;
+              font-size: 14px;
+              margin-top: 80px;
+            }
     :root {
       --theme-primary: #435099;
       --theme-primary-dark: #2f3a80;
@@ -29,24 +154,23 @@
       color: var(--theme-primary);
     }
   
-    /* Active (opened) question */
+
     .accordion-button:not(.collapsed) {
       background-color: var(--theme-primary);
       color: #fff;
     }
-  
-    /* Default (closed) question */
+
     .accordion-button {
       font-weight: 500;
     }
   
-    /* Remove blue focus shadow */
+
     .accordion-button:focus {
       box-shadow: none;
       border-color: var(--theme-primary);
     }
   
-    /* Hover effect */
+
     .accordion-button:hover {
       background-color: #eef0fb;
     }
@@ -55,7 +179,22 @@
 </head>
 
 <body>
-  {% include 'nav.html' %}
+    
+    <nav class="custom-navbar">
+      <a href="home.html" class="logo">
+        <img src="logo.png" alt="Nokhara Job Center" />
+      </a>
+    
+    
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    
+      <ul class="nav-links" id="navLinks">
+        <li><a href="login.html" class="btn">Login</a></li>
+        <li><a href="register.html" class="btn">Register</a></li>
+        <li><a href="post_job.html" class="btn">Post Job</a></li>
+      </ul>
+      
+    </nav>
   <section class="faq-section" style="padding-top:100px;">
 
     <div class="container faq">
@@ -178,7 +317,49 @@
 
     </div>
   </section>
-  {% include 'footer.html' %}
+  <footer class="site-footer">
+    <div class="footer-container layout">
+      <div class="footer-column">
+        <h4>FOR JOBSEEKER</h4>
+        <ul>
+          <li><a href="#">Search Jobs</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>FOR EMPLOYER</h4>
+        <ul>
+          <li><a href="">Login</a></li>
+          <li><a href="#">Recruitment Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>ABOUT US</h4>
+        <ul>
+          <li><a href="#">About Nokhara Job Center</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>CONTACT US</h4>
+        <p>Pokhara-8,Nagdhunga</p>
+        <p>📞 +977 1 33333</p>
+        <p>✉️ info@nokharajobcenter.com</p>
+      </div>
+    </div>
+  
+    <div class="footer-bottom layout">
+      <p>© 2025 Nokhara Job Center. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
  
 </body>

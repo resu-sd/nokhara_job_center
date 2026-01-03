@@ -5,6 +5,15 @@ body {
   background-color: #f4f6f8;
 }
 
+.layout {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto; 
+  padding: 0;  
+}
+
+
+
 /* ================= NAVBAR ================= */
 .custom-navbar {
   display: flex;
@@ -60,7 +69,7 @@ body {
 .btn-primary {
   padding: 15px 35px;
   font-size: 18px;
-  background-color: rgb(73, 87, 167);
+  background-color: rgba(43, 58, 143, 1);
   color: white;
   border: none;
   border-radius: 6px;
@@ -89,70 +98,119 @@ body {
 
 /* ================= SEARCH ================= */
 .search {
-  display: flex;
-  gap: 10px;
-  padding: 30px;
-  background: white;
-  width: 80%;
-  margin: -40px auto 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
+        display: flex;
+        gap: 10px;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        padding: 15px; /* small padding inside search */
+        margin-top: -40px;
+        border-radius: 6px;
+      }
 
-.search input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+      .search input {
+        flex: 1;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
 
-.search button {
-  background: #435099;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-}
+      .search button {
+        padding: 12px 24px;
+        border-radius: 6px;
+        border: none;
+        background: #435099;
+        color: white;
+        cursor: pointer;
+      }
 
-
-.job-section {
-  margin: 30px 0;
-  margin-left:60px;
-
-}
-.job-section:last-of-type {
-  margin-bottom: 100px; 
-}
-
-  .card-type {
-        margin: 8px 0 6px 20px;
+      /* ===== JOB SECTIONS ===== */
+      .card-type {
+        margin-top: 30px;
+        margin-bottom: 15px;
         font-size: 1rem;
-        color: #435099ff;
-        line-height: 1.2;
+        font-weight: 600;
+        color: #435099;
+      }
+
+      .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .card {
+        background: white;
+        padding: 16px;
+        width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        text-align: center;
+        font-size: 14px;
+      }
+
+      /* ===== CLIENT SAY ===== */
+      .client-say {
+        background: #d3d7e4;
+        padding: 70px 0;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        margin-top: 100px;
+      }
+
+      .client-say h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+        color: #2f40a2;
+      }
+
+      .client-say .subtitle {
+        max-width: 600px;
+        margin: 0 auto 50px;
+        color: #555;
+      }
+
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+      }
+
+      .testimonial-box {
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        text-align: left;
+      }
+
+      .user-info strong {
+        display: block;
+        font-size: 15px;
+        color: #435099;
+      }
+
+      .user-info span {
+        font-size: 14px;
+        color: #777;
+      }
+
+      .btn-review {
+        display: inline-block;
+        margin-top: 40px;
+        background: #3c4a97;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 6px;
+        text-decoration: none;
         font-weight: 600;
       }
 
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-left: 20px;
-  margin-top: 20px;
-  
-}
-.card {
-  background: white;
-  padding: 16px;
-  width: 200px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: center;
-}
- .card {
-        font-size: 14px;
+      .btn-review:hover {
+        background: #414c8a;
       }
-  
 
+      
+
+      
 /* ================= MOBILE ================= */
 @media (max-width: 768px) {
   .menu-toggle {
@@ -190,65 +248,68 @@ body {
 }
 /* ================= FOOTER ================= */
 
-.site-footer {
-  background-color: #444b53;
-  color: #ffffff;
-  padding: 40px 0 20px;
-  font-size: 14px;
-  margin-top: 80px;
-}
 
-.footer-container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-}
 
-.footer-column h4 {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #f9fafb;
-  font-weight: 600;
-}
+      .footer-container.layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        max-width: 1200px;  
+        margin: 0 auto;
+        padding: 0 20px; /* aligns with main content */
+      }
 
-.footer-column ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+      .footer-column h4 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #f9fafb;
+        font-weight: 600;
+      }
 
-.footer-column ul li {
-  margin-bottom: 10px;
-}
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
 
-.footer-column ul li a {
-  color: #d1d5db;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
+      .footer-column ul li {
+        margin-bottom: 5px;
+      
+      }
+      .footer-column ul li a {
+        color: #d1d5db;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .footer-column ul li a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+      .footer-column p {
+        margin: 5px 0;
+      }
 
-.footer-column ul li a:hover {
-  color: #ffffff;
-  text-decoration: underline;
-}
+      /* Footer bottom text */
+      .footer-bottom.layout {
+        border-top: 1px solid #444;
+        padding-top: 10px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 20px; /* same as content */
+      }
 
-.footer-column p {
-  margin-bottom: 10px;
-  color: #d1d5db;
-  line-height: 1.5;
-}
-
-.footer-bottom {
-  text-align: center;
-  border-top: 1px solid #4b4e52;
-  margin-top: 30px;
-  padding-top: 15px;
-  color: #9ca3af;
-  font-size: 13px;
-}
+      .footer-bottom p {
+        margin: 0;
+        font-size: 14px;
+      }
+    
+      .site-footer {
+        background-color: #444b53;
+        color: #ffffff;
+        padding: 40px 0 20px;
+        font-size: 14px;
+        margin-top: 80px;
+      }
 
 /* ================= FOOTER MOBILE ================= */
 

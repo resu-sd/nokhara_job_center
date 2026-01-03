@@ -11,75 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-   <style>
-    .client-say {
-      background: #d3d7e4ff;
-      padding: 70px 0;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin-top: 100px;
-    }
-    
-    .client-say h2 {
-      font-size: 32px;
-      margin-bottom: 30px;
-      color:#2f40a2ff;
-    }
-    
-    .client-say .subtitle {
-      max-width: 600px;
-      margin: 0 auto 50px;
-      color: #555;
-    }
-    
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-    
-    .testimonial-box {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 14px;
-      text-align: left;
-    }
-    
-    .testimonial-box p {
-      color: #555;
-      margin-bottom: 25px;
-    }
-    
-    .user-info strong {
-      display: block;
-      font-size: 15px;
-      color:#435099;
-    }
-    
-    .user-info span {
-      font-size: 14px;
-      color: #777;
-    }
-    
- .review-button {
-      margin-top: 50px;
-    } 
-    
-    .btn-review {
-      background: #3c4a97ff;
-      color: #fff;
-      padding: 12px 30px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    
-    .btn-review:hover {
-      background: #414c8aff;
-    }
-    
-  
-    </style>
+   
   </head>
 
   <body>
@@ -96,43 +28,40 @@
         </div>
       </section>
 
-      <section class="search">
-        <input type="text" placeholder="Job title or keyword" />
-        <input type="text" placeholder="Location" />
-        <button>Search</button>
+      <section class="layout">
+        <div class="search">
+          <input type="text" placeholder="Job title or keyword" />
+          <input type="text" placeholder="Location" />
+          <button>Search</button>
+        </div>
       </section>
 
-      <section class="container">
+     
+      <section class="layout job-section">
         <h2 class="card-type">Recently Added</h2>
-      
         <div class="cards-container">
           <div class="card">
             <h3>Google</h3>
             <p>Software Engineer</p>
-            <button class="details-btn">View Details</button>
           </div>
-      
           <div class="card">
             <h3>Microsoft</h3>
             <p>Backend Developer</p>
-            <button class="details-btn">View Details</button>
           </div>
-      
           <div class="card">
             <h3>Amazon</h3>
             <p>DevOps Engineer</p>
-            <button class="details-btn">View Details</button>
           </div>
         </div>
       </section>
-      
-      <section class="container">
+
+ 
+      <section class="layout job-section">
         <h2 class="card-type">Top Jobs</h2>
         <div class="cards-container">
           <div class="card">
             <h3>Netflix</h3>
             <p>Frontend Developer</p>
-           
           </div>
           <div class="card">
             <h3>Apple</h3>
@@ -140,55 +69,29 @@
           </div>
         </div>
       </section>
+
+     
       <section class="client-say">
-        <div class="container">
+        <div class="layout">
           <h2>What Our Clients Say</h2>
-          <p class="subtitle">
-            Discover how Nokhara Job Center connects job seekers and employers
-            through a reliable and transparent hiring platform.
-          </p>
-      
+          <p class="subtitle">Discover how Nokhara Job Center connects job seekers and employers through a reliable platform.</p>
           <div class="testimonial-grid">
-            
             <div class="testimonial-box">
-              <p>
-                Nokhara Job Center made my job search easy and stress-free.
-                I received interview calls within days of applying.
-              </p>
-              <div class="user-info">
-                <strong>Ramesh Shrestha</strong>
-                <span>Software Engineer</span>
-              </div>
+              <p>Nokhara Job Center made my job search easy and stress-free.</p>
+              <div class="user-info"><strong>Ramesh Shrestha</strong><span>Software Engineer</span></div>
             </div>
-      
             <div class="testimonial-box">
-              <p>
-                As an employer, we found quality candidates quickly.
-                The platform is simple, effective, and trustworthy.
-              </p>
-              <div class="user-info">
-                <strong>Sita Karki</strong>
-                <span>HR Manager</span>
-              </div>
+              <p>As an employer, we found quality candidates quickly.</p>
+              <div class="user-info"><strong>Sita Karki</strong><span>HR Manager</span></div>
             </div>
-      
             <div class="testimonial-box">
-              <p>
-                A great platform for freshers and experienced professionals.
-                The application process is smooth and transparent.
-              </p>
-              <div class="user-info">
-                <strong>Arjun Rai</strong>
-                <span>Marketing Executive</span>
-              </div>
+              <p>A great platform for freshers and experienced professionals.</p>
+              <div class="user-info"><strong>Arjun Rai</strong><span>Marketing Executive</span></div>
             </div>
-      
           </div>
-      
-          <div class="review-button"> <a href="#" class="btn-review">Write a Review</a> </div> </div>
-          
-      </section>
-       {% endblock %}
+          <a href="#" class="btn-review">Write a Review</a>
+        </div>
+      </section> {% endblock %}
     </main>
 
     {% include 'footer.html' %}

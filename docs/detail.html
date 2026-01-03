@@ -1,203 +1,417 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Details - Job Center</title>
-    <link rel="stylesheet" href="job-detail.css">
-   <style>
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-
-
-.container {
-    display: flex;
-    max-width: 800px;
-    margin: 20px auto;
-    gap: 20px;
-}
-
-
-.job-detail {
-    flex: 2;
-    background-color: #f9f9f9;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.job-detail h2 {
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.company {
-    color: #666;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.job-info h3 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    color: #1E90FF;
-}
-
-.job-info ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    margin-bottom: 15px;
-}
-
-.apply-btn {
-    display: inline-block;
-    background-color: #1E90FF;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.apply-btn:hover {
-    background-color: #0b5fa5;
-}
-
-/* Sidebar */
-.sidebar {
-    flex: 1;
-    background-color: #f1f1f1;
-    padding: 20px;
-    border-radius: 8px;
-    height: fit-content;
-}
-
-.sidebar h3 {
-    margin-bottom: 10px;
-    color: #1E90FF;
-}
-
-.sidebar ul {
-    list-style-type: square;
-    margin-left: 15px;
-}
-.job-meta p {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* space between icon and text */
-    margin: 0;
-    font-size: 14px;
-    color: #333;
-}
-
-.job-meta svg {
-    min-width: 16px;
-    height: 16px;
-}
-
-
-   </style>
-
-
-</head>
-<body>
-  
-<main class="container">
-    <section class="job-detail">
-        <!-- Job Title and Company -->
-        <h2>Software Engineer</h2>
-        <p class="company">Google</p>
-
-        <!-- Job Meta Info -->
-        <div class="job-meta">
-            <p>
-                <!-- Location Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M8 0C5.243 0 3 2.243 3 5c0 4.75 5 11 5 11s5-6.25 5-11c0-2.757-2.243-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                </svg>
-                Sanepa, Kathmandu
-            </p>
-            <p>
-                <!-- Salary Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm1 12H7v-2h2zm0-3H7V4h2z"/>
-                </svg>
-                NRs. 25,000 – 35,000
-            </p>
-            <p>
-                <!-- Briefcase Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M6.5 0a.5.5 0 0 0-.5.5V2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-4V.5a.5.5 0 0 0-.5-.5h-3zM3 3h10a1 1 0 0 1 1 1v1H2V4a1 1 0 0 1 1-1z"/>
-                </svg>
-                Full Time
-            </p>
-            <p>
-                <!-- Level Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M8 0l8 16H0L8 0z"/>
-                </svg>
-                Mid Level
-            </p>
-            <p>
-                <!-- Users Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M5.5 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM0 13s1-1 8-1 8 1 8 1v2H0v-2z"/>
-                </svg>
-                Vacancy: 1
-            </p>
-            <p>
-                <!-- Clock Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#364496" viewBox="0 0 16 16">
-                    <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm.5 4H7v5l4.25 2.52.5-.86-3.75-2.22V4z"/>
-                </svg>
-                Experience: More than 1 year
-            </p>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Detail</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>.custom-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 0 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 2000;
+    }
+    
+    .logo img {
+      height: 48px;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+    
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 17px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 2px solid black;
+      background: transparent;
+      color: black;
+    }
+    
+    .btn:hover {
+      background: #435099ff;
+      color: white;
+      border-color: #435099ff;
+    }
+    
+    .btn-primary {
+      padding: 15px 35px;
+      font-size: 18px;
+      background-color: rgba(43, 58, 143, 1);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #435099ff;
+    }
+    .footer-container.layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            max-width: 1200px;  
+            margin: 0 auto;
+            padding: 0 20px; /* aligns with main content */
+          }
+    
+          .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #f9fafb;
+            font-weight: 600;
+          }
+    
+          .footer-column ul {
+            list-style: none;
+            padding: 0;
+          }
+    
+          .footer-column ul li {
+            margin-bottom: 5px;
+          
+          }
+          .footer-column ul li a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+          }
+          .footer-column ul li a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+          }
+          .footer-column p {
+            margin: 5px 0;
+          }
+    
+          /* Footer bottom text */
+          .footer-bottom.layout {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px; /* same as content */
+          }
+    
+          .footer-bottom p {
+            margin: 0;
+            font-size: 14px;
+          }
         
+          .site-footer {
+            background-color: #444b53;
+            color: #ffffff;
+            padding: 40px 0 20px;
+            font-size: 14px;
+            margin-top: 80px;
+          }
+    
+    /* ================= FOOTER MOBILE ================= */
+    
+    @media (max-width: 576px) {
+    
+      /* Make footer columns align in one row */
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        text-align: center;
+      }
+    
+      /* Hide footer lists & text, show only titles */
+      .footer-column ul,
+      .footer-column p {
+        display: none;
+      }
+    
+      /* Footer titles style */
+      .footer-column h4 {
+        font-size: 11px;
+        margin-bottom: 0;
+        white-space: nowrap;
+      }
+    
+      /* Reduce footer padding */
+      .site-footer {
+        padding: 20px 0 10px;
+      }
+    }
+    
+    
+    
+    
+   
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
 
-        <!-- Job Description -->
-        <div class="job-info">
+      main {
+        flex: 1;
+      }
+
+      .container-detail {
+        display: flex;
+        max-width: 1200px;
+        margin: 120px auto 20px auto; /* 120px to avoid overlapping with fixed navbar */
+        gap: 20px;
+      }
+
+      .job-detail {
+        flex: 2;
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .job-detail h2 {
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .company {
+        color: #666;
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+
+      .job-meta {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px 20px;
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      .job-meta p {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+      }
+      .job-meta span {
+        font-weight: bold;
+        color: #364496ff;
+      }
+
+      .job-info h3 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #364496ff;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ededed;
+      }
+
+      .job-info ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      .apply-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 22px;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .apply-btn:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="custom-navbar">
+      <a href="home.html" class="logo">
+        <img src="logo.png" alt="Nokhara Job Center" />
+      </a>
+    
+    
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    
+      <ul class="nav-links" id="navLinks">
+        <li><a href="login.html" class="btn">Login</a></li>
+        <li><a href="register.html" class="btn">Register</a></li>
+        <li>
+          <a href="post_job.html" class="btn">Post Job</a>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container-detail">
+        <section class="job-detail">
+          <h2>Software Engineer</h2>
+
+          <div class="job-meta">
+            <p><span>Location:</span> Sanepa, Kathmandu</p>
+            <p><span>Salary Range:</span> NRs. 25,000 – 35,000</p>
+            <p><span>Status:</span> Full Time</p>
+            <p><span>Published Date:</span> 2025-12-21</p>
+            <p><span>Expiry Date:</span> 2026-01-21</p>
+            <p><span>Created By:</span> Admin</p>
+          </div>
+
+          <div class="job-info">
             <h3>Job Description</h3>
             <p>
-                We are looking for a skilled Software Engineer to join our team.
-                You will work on exciting projects involving web development, cloud computing, and AI.
+              We are looking for a skilled Software Engineer to join our team.
+              You will work on exciting projects involving web development,
+              cloud computing, and AI.
             </p>
 
-            <!-- Requirements -->
             <h3>Requirements</h3>
             <ul>
-                <li>Bachelor’s degree in Computer Science or related field</li>
-                <li>Experience with Python, JavaScript, and React</li>
-                <li>Strong problem-solving skills</li>
-                <li>Good communication and teamwork</li>
+              <li>Bachelor’s degree in Computer Science or related field</li>
+              <li>Experience with Python, JavaScript, and React</li>
+              <li>Strong problem-solving skills</li>
+              <li>Good communication and teamwork</li>
             </ul>
 
-            <!-- Benefits -->
             <h3>Benefits</h3>
             <ul>
-                <li>Health insurance</li>
-                <li>Paid leave</li>
-                <li>Flexible working hours</li>
+              <li>Health insurance</li>
+              <li>Paid leave</li>
+              <li>Flexible working hours</li>
             </ul>
 
-            <!-- Apply Button -->
-            <button class="apply-btn">Apply Now</button>
+            <button
+            type="button"
+            class="apply-btn"
+            onclick="openModal()"
+          >
+            Apply Now
+          </button>
         </div>
-    </section>
-</main>
+      </section>
+    </div>
+  </main>
 
+  <div id="visit-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+    <div class="modal-content" style="background: white; padding: 30px; border-radius: 10px; max-width: 400px; width: 90%; text-align: center;">
+      <h3>Apply for Job</h3>
+      <p>To apply for this position:</p>
+      <ol style="text-align: left; margin: 20px 0; padding-left: 20px;">
+        <li>Note the <strong>Job ID</strong> mentioned above</li>
+        <li>Prepare your CV and required documents</li>
+        <li>Visit our office during working hours</li>
+        <li>Submit your application in person</li>
+      </ol>
+      <p><strong>Important:</strong> No online applications accepted.</p>
+      <button class="btn btn-primary" onclick="closeModal()">Got it!</button>
+      <button class="btn btn-outline-secondary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+      function openModal() {
+        document.getElementById('visit-modal').style.display = 'flex';
+      }
       
-    </main>
+      function closeModal() {
+        document.getElementById('visit-modal').style.display = 'none';
+      }
+      
+      document.getElementById('visit-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+      });
+      
+      document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('active');
+      });
 
-   
-</body>
+      document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const menuToggle = document.getElementById('menuToggle');
+        
+        if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+          navLinks.classList.remove('active');
+        }
+      });
+    </script>
+
+<footer class="site-footer">
+  <div class="footer-container layout">
+    <div class="footer-column">
+      <h4>FOR JOBSEEKER</h4>
+      <ul>
+        <li><a href="#">Search Jobs</a></li>
+        <li><a href="{% url 'faq'%}">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>FOR EMPLOYER</h4>
+      <ul>
+        <li><a href="">Login</a></li>
+        <li><a href="#">Recruitment Services</a></li>
+        <li><a href="{% url 'faq'%}">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>ABOUT US</h4>
+      <ul>
+        <li><a href="#">About Nokhara Job Center</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>CONTACT US</h4>
+      <p>Pokhara-8,Nagdhunga</p>
+      <p>📞 +977 1 33333</p>
+      <p>✉️ info@nokharajobcenter.com</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom layout">
+    <p>© 2025 Nokhara Job Center. All Rights Reserved.</p>
+  </div>
+</footer>
+
+  </body>
 </html>
