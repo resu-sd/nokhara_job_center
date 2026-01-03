@@ -241,20 +241,110 @@
         margin-left: 20px;
         margin-bottom: 15px;
       }
-
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+      main { flex: 1; }
+      .container-detail {
+        max-width: 1200px;
+        margin: 120px auto 20px;
+      }
+      .job-detail {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      }
       .apply-btn {
-        background-color: #28a745;
+        background: #28a745;
         color: white;
-        padding: 10px 22px;
+        padding: 12px 28px;
         border: none;
-        border-radius: 6px;
-        font-size: 15px;
+        border-radius: 8px;
         cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
       }
-
-      .apply-btn:hover {
-        background-color: #218838;
+      .apply-btn:hover { background: #218838; }
+  
+      /* MODAL STYLES */
+      .modal-content {
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       }
+      .modal-header {
+        border-bottom: none;
+        justify-content: center;
+      }
+      .modal-header .btn-close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+      .modal-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #364496ff;
+      }
+      .modal-body p {
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+      .modal-body ul {
+        padding-left: 20px;
+        margin-bottom: 15px;
+      }
+  
+  
+      .modal-body .btn {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+      }
+      .btn-primary { background: #364496ff; color: #fff; border: none; }
+      .btn-primary:hover { background: #2b3a8fff; }
+      .btn-success { background: #28a745; color: #fff; border: none; }
+      .btn-success:hover { background: #218838; }
+      .btn-secondary { background: #6c757d; color: #fff; border: none; }
+      .btn-secondary:hover { background: #5a6268; }
+  
+   
+      #applyForm input,
+      #applyForm textarea {
+        border-radius: 6px;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      #applyForm input:focus,
+      #applyForm textarea:focus {
+        border-color: #364496ff;
+        box-shadow: 0 0 5px rgba(54, 68, 150, 0.3);
+        outline: none;
+      }
+  
+  
+      .office-info {
+        background: #e9f7ef;
+        border-left: 4px solid #28a745;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+  
+      @media (max-width: 576px) {
+        .job-detail { padding: 20px; }
+        .apply-btn { width: 100%; }
+      }
+    </style>
     </style>
   </head>
 
@@ -314,61 +404,129 @@
               <li>Flexible working hours</li>
             </ul>
 
-            <button
-            type="button"
-            class="apply-btn"
-            onclick="openModal()"
-          >
-            Apply Now
-          </button>
+            <button class="apply-btn" data-bs-toggle="modal" data-bs-target="#choiceModal">
+              Apply Now
+            </button>
+          </section>
         </div>
-      </section>
-    </div>
-  </main>
-
-  <div id="visit-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-    <div class="modal-content" style="background: white; padding: 30px; border-radius: 10px; max-width: 400px; width: 90%; text-align: center;">
-      <h3>Apply for Job</h3>
-      <p>To apply for this position:</p>
-      <ol style="text-align: left; margin: 20px 0; padding-left: 20px;">
-        <li>Note the <strong>Job ID</strong> mentioned above</li>
-        <li>Prepare your CV and required documents</li>
-        <li>Visit our office during working hours</li>
-        <li>Submit your application in person</li>
-      </ol>
-      <p><strong>Important:</strong> No online applications accepted.</p>
-      <button class="btn btn-primary" onclick="closeModal()">Got it!</button>
-      <button class="btn btn-outline-secondary" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-      function openModal() {
-        document.getElementById('visit-modal').style.display = 'flex';
-      }
+      </main>
       
-      function closeModal() {
-        document.getElementById('visit-modal').style.display = 'none';
-      }
       
-      document.getElementById('visit-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-      });
+      <div class="modal fade" id="choiceModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <div class="modal-header">
+              <h5 class="modal-title">How would you like to apply?</h5>
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-sm mb-2 w-100" onclick="openApplyForm()">
+                Submit Application
+              </button>
+              
+              <button class="btn btn-success btn-sm w-100" onclick="openOfficeInfo()">
+                Visit Office
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
       
-      document.getElementById('menuToggle').addEventListener('click', function() {
-        document.getElementById('navLinks').classList.toggle('active');
-      });
-
-      document.addEventListener('click', function(event) {
-        const navLinks = document.getElementById('navLinks');
-        const menuToggle = document.getElementById('menuToggle');
-        
-        if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
-          navLinks.classList.remove('active');
+      
+      <div class="modal fade" id="applyFormModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Submit Application</h5>
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="applyForm">
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success w-100">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="modal fade" id="officeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Visit Our Office</h5>
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="office-info">
+                <p><strong>Job ID:</strong> JOB-2025-SE</p>
+                <p><strong>Office:</strong> Nokhara Job Center</p>
+                <p><strong>Address:</strong> Sanepa, Lalitpur</p>
+                <p><strong>Opening Hours:</strong> Sunday – Friday, 10:00 AM – 5:00 PM</p>
+                <p>Please bring your CV and documents.</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary w-100" data-bs-dismiss="modal">Got it!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <div class="modal-header">
+              <h5 class="modal-title">Application Sent!</h5>
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p>Your application has been submitted successfully.</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary w-100" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+      
+      <script>
+        function openApplyForm() {
+          bootstrap.Modal.getInstance(document.getElementById('choiceModal')).hide();
+          new bootstrap.Modal(document.getElementById('applyFormModal')).show();
         }
-      });
-    </script>
+      
+        function openOfficeInfo() {
+          bootstrap.Modal.getInstance(document.getElementById('choiceModal')).hide();
+          new bootstrap.Modal(document.getElementById('officeModal')).show();
+        }
+      
+        document.getElementById('applyForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          bootstrap.Modal.getInstance(document.getElementById('applyFormModal')).hide();
+          new bootstrap.Modal(document.getElementById('successModal')).show();
+          this.reset();
+        });
+      </script>
+      
 
 <footer class="site-footer">
   <div class="footer-container layout">
