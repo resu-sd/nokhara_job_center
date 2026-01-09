@@ -639,6 +639,10 @@
     </div>
 
     <script>
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+        });
+
         const jobData = [
             { id: 'NT001', title: 'Senior Python Developer', company: 'Tech Solutions Inc.', location: 'Kathmandu', salary: 'Rs 80,000 - 120,000/month', type: 'Full Time', posted: '2 days ago', tags: ['Python', 'Django', 'PostgreSQL', 'REST API'] },
             { id: 'NT002', title: 'React.js Developer', company: 'Digital Innovations', location: 'Remote', salary: 'Rs 60,000 - 100,000/month', type: 'Full Time', posted: '1 day ago', tags: ['React', 'TypeScript', 'CSS', 'Frontend'] },
