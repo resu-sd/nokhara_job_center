@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Nokhara Job Center</title>
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>.custom-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 0 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 2000;
+  }
+  
+  .logo img {
+    height: 48px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .menu-toggle {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+  }
+  
+  .btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 17px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid black;
+    background: transparent;
+    color: black;
+  }
+  
+  .btn:hover {
+    background: #435099ff;
+    color: white;
+    border-color: #435099ff;
+  }
+  
+  .btn-primary {
+    padding: 15px 35px;
+    font-size: 18px;
+    background-color: rgba(43, 58, 143, 1);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #435099ff;
+  }
+  .footer-container.layout {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          justify-content: space-between;
+          max-width: 1200px;  
+          margin: 0 auto;
+          padding: 0 20px; /* aligns with main content */
+        }
+  
+        .footer-column h4 {
+          font-size: 16px;
+          margin-bottom: 10px;
+          color: #f9fafb;
+          font-weight: 600;
+        }
+  
+        .footer-column ul {
+          list-style: none;
+          padding: 0;
+        }
+  
+        .footer-column ul li {
+          margin-bottom: 5px;
+        
+        }
+        .footer-column ul li a {
+          color: #d1d5db;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+        .footer-column ul li a:hover {
+          color: #ffffff;
+          text-decoration: underline;
+        }
+        .footer-column p {
+          margin: 5px 0;
+        }
+  
+        /* Footer bottom text */
+        .footer-bottom.layout {
+          border-top: 1px solid #444;
+          padding-top: 10px;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding-left: 20px; /* same as content */
+        }
+  
+        .footer-bottom p {
+          margin: 0;
+          font-size: 14px;
+        }
+      
+        .site-footer {
+          background-color: #444b53;
+          color: #ffffff;
+          padding: 40px 0 20px;
+          font-size: 14px;
+          margin-top: 80px;
+        }
+  
+  /* ================= FOOTER MOBILE ================= */
+  
+  @media (max-width: 576px) {
+  
+    /* Make footer columns align in one row */
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+  
+    /* Hide footer lists & text, show only titles */
+    .footer-column ul,
+    .footer-column p {
+      display: none;
+    }
+  
+    /* Footer titles style */
+    .footer-column h4 {
+      font-size: 11px;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+  
+    /* Reduce footer padding */
+    .site-footer {
+      padding: 20px 0 10px;
+    }
+  }
+  
+  
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about-header {
+      background: #435099;
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      margin-top:25px;
+    }
+
+    .about-header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .about-header p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .about-section {
+      padding: 50px 20px;
+    }
+
+    .about-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .about-card h2 {
+      color: rgba(43, 58, 143, 1);
+      margin-bottom: 15px;
+    }
+
+    .about-card ul {
+      padding-left: 20px;
+    }
+
+    .about-card ul li {
+      margin-bottom: 8px;
+    }
+
+    .contact-info p {
+      margin: 5px 0;
+    }
+
+
+    @media (max-width: 768px) {
+      .about-header h1 {
+        font-size: 28px;
+      }
+
+      .about-header p {
+        font-size: 16px;
+      }
+    }
+  </style>
+
+</head>
+<body>
+    <nav class="custom-navbar">
+        <a href="home.html" class="logo">
+          <img src="logo.png" alt="Nokhara Job Center" />
+        </a>
+      
+      
+        <div class="menu-toggle" id="menuToggle">☰</div>
+      
+        <ul class="nav-links" id="navLinks">
+          <li><a href="login.html" class="btn">Login</a></li>
+          <li><a href="register.html" class="btn">Register</a></li>
+          <li>
+            <a href="post_job.html" class="btn">Post Job</a>
+          </li>
+          
+        </ul>
+      </nav>
+
+  <!-- Header -->
+
+  <section class="about-header">
+    <h1>About Nokhara Job Center</h1>
+    <p>Your trusted platform for connecting job seekers with reliable employers</p>
+  </section>
+
+  <!-- Content -->
+
+  <section class="about-section container">
+
+
+<div class="about-card">
+  <h2>Who We Are</h2>
+  <p>
+    Nokhara Job Center is an employment and recruitment platform designed to
+    bridge the gap between job seekers and employers. We aim to make job
+    searching and hiring simple, transparent, and effective.
+  </p>
+</div>
+
+<div class="about-card">
+  <h2>Our Mission</h2>
+  <ul>
+    <li>Connect skilled individuals with suitable job opportunities</li>
+    <li>Help employers find qualified and reliable candidates</li>
+    <li>Reduce unemployment through accessible job listings</li>
+  </ul>
+</div>
+
+<div class="about-card">
+  <h2>Our Vision</h2>
+  <p>
+    To become a trusted job center that empowers careers, strengthens
+    organizations, and supports economic growth.
+  </p>
+</div>
+
+<div class="about-card">
+  <h2>What We Offer</h2>
+  <ul>
+    <li>Verified job listings</li>
+    <li>Easy job application process</li>
+    <li>Opportunities across multiple sectors</li>
+    <li>Simple tools for employers to manage hiring</li>
+  </ul>
+</div>
+
+<div class="about-card contact-info">
+  <h2>Contact Us</h2>
+  <p><strong>Email:</strong> support@nokharajobcenter.com</p>
+  <p><strong>Phone:</strong> +977-XXXXXXXXX</p>
+  <p><strong>Location:</strong> Nepal</p>
+</div>
+
+
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container layout">
+      <div class="footer-column">
+        <h4>FOR JOBSEEKER</h4>
+        <ul>
+          <li><a href="#">Search Jobs</a></li>
+          <li><a href="{% url 'faq'%}">FAQ</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>FOR EMPLOYER</h4>
+        <ul>
+          <li><a href="">Login</a></li>
+          <li><a href="#">Recruitment Services</a></li>
+          <li><a href="{% url 'faq'%}">FAQ</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>ABOUT US</h4>
+        <ul>
+          <li><a href="#">About Nokhara Job Center</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column">
+        <h4>CONTACT US</h4>
+        <p>Pokhara-8,Nagdhunga</p>
+        <p>📞 +977 1 33333</p>
+        <p>✉️ info@nokharajobcenter.com</p>
+      </div>
+    </div>
+  
+    <div class="footer-bottom layout">
+      <p>© 2025 Nokhara Job Center. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+
+  
+</body>
+</html>

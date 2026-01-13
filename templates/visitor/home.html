@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{% block title %}Nokhara Job Center{% endblock %}</title>
+    <title>Nokhara Job Center</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -14,6 +14,363 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
    <style> 
+    .view-link {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 7px 18px;
+      background-color: #435099;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;}
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+    }
+    
+    .layout {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto; 
+      padding: 0;  
+    }
+
+    
+   
+    .custom-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 0 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 2000;
+    }
+    
+    .logo img {
+      height: 48px;
+      
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+    
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 17px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 2px solid black;
+      background: transparent;
+      color: black;
+    }
+    
+    .btn:hover {
+      background: #435099ff;
+      color: white;
+      border-color: #435099ff;
+    }
+    
+    .btn-primary {
+      padding: 15px 35px;
+      font-size: 18px;
+      background-color: rgba(43, 58, 143, 1);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #435099ff;
+    }
+    
+    
+    
+    
+  
+    .hero {
+     
+      background: linear-gradient(to right, #525ea1, #414e96);
+      color: white;
+      padding: 80px 40px;
+    }
+    
+    .hero-text h1 {
+      font-size: 48px;
+    }
+    
+    .hero-text p {
+      font-size: 18px;
+    }
+    
+
+    .search {
+            display: flex;
+            gap: 10px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 15px; /* small padding inside search */
+            margin-top: -40px;
+            border-radius: 6px;
+          }
+    
+          .search input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+          }
+    
+          .search button {
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: none;
+            background: #435099;
+            color: white;
+            cursor: pointer;
+          }
+    
+          .card-type {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #435099;
+          }
+    
+          .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+          }
+    
+          .card {
+            background: white;
+            padding: 16px;
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 14px;
+          }
+    
+          /* ===== CLIENT SAY ===== */
+          .client-say {
+            background: #d3d7e4;
+            padding: 70px 0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 100px;
+          }
+    
+          .client-say h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2f40a2;
+          }
+    
+          .client-say .subtitle {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            color: #555;
+          }
+    
+          .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+          }
+    
+          .testimonial-box {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: left;
+          }
+    
+          .user-info strong {
+            display: block;
+            font-size: 15px;
+            color: #435099;
+          }
+    
+          .user-info span {
+            font-size: 14px;
+            color: #777;
+          }
+    
+          .btn-review {
+            display: inline-block;
+            margin-top: 40px;
+            background: #3c4a97;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+          }
+    
+          .btn-review:hover {
+            background: #414c8a;
+          }
+    
+          
+    
+          
+ 
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+    
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        right: 0;
+        flex-direction: column;
+        background: white;
+        width: 200px;
+        padding: 16px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      }
+    
+      .nav-links.show {
+        display: flex;
+      }
+    
+      .search {
+        flex-direction: column;
+        width: 90%;
+      }
+    
+      .card {
+        width: 100%;
+      }
+    
+      .hero-text h1 {
+        font-size: 32px;
+      }
+    }
+    /* ================= FOOTER ================= */
+    
+    
+    
+          .footer-container.layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            max-width: 1200px;  
+            margin: 0 auto;
+            padding: 0 20px; /* aligns with main content */
+          }
+    
+          .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #f9fafb;
+            font-weight: 600;
+          }
+    
+          .footer-column ul {
+            list-style: none;
+            padding: 0;
+          }
+    
+          .footer-column ul li {
+            margin-bottom: 5px;
+          
+          }
+          .footer-column ul li a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+          }
+          .footer-column ul li a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+          }
+          .footer-column p {
+            margin: 5px 0;
+          }
+    
+          /* Footer bottom text */
+          .footer-bottom.layout {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px; /* same as content */
+          }
+    
+          .footer-bottom p {
+            margin: 0;
+            font-size: 14px;
+          }
+        
+          .site-footer {
+            background-color: #444b53;
+            color: #ffffff;
+            padding: 40px 0 20px;
+            font-size: 14px;
+            margin-top: 80px;
+          }
+    
+    /* ================= FOOTER MOBILE ================= */
+    
+    @media (max-width: 576px) {
+    
+    
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        text-align: center;
+      }
+    
+   
+      .footer-column ul,
+      .footer-column p {
+        display: none;
+      }
+    
+   
+      .footer-column h4 {
+        font-size: 11px;
+        margin-bottom: 0;
+        white-space: nowrap;
+      }
+    
+   
+      .site-footer {
+        padding: 20px 0 10px;
+      }
+    }
+    
+
     .view-link {
       display: inline-block;
       margin-top: 14px;
@@ -71,12 +428,12 @@
   box-shadow: 0 0 0 0.2rem rgba(67, 80, 153, 0.15);
 }
 
-/* Textarea */
+
 .review-textarea {
   resize: none;
 }
 
-/* Submit Button */
+
 .submit-review-btn {
   background-color: #435099;
   border: none;
@@ -109,16 +466,41 @@
   </head>
 
   <body>
-    {% include 'nav.html' %}
+ 
 
-    <main>
-      {% block content %}
+    <nav class="custom-navbar">
+      <a href="{% url 'home' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Nokhara Job Center" />
+      </a>
+      <div class="menu-toggle" id="menuToggle">☰</div>
+    
+      <ul class="nav-links" id="navLinks">
+        {% if user.is_authenticated %}
+       
+        <li>
+            <a href="{% url 'logout_view' %}" class="btn ">Logout</a>
+        </li>
+        <li>
+            <a href="{% url 'post_job' %}" class="btn ">Post Job</a>
+        </li>
+        {% else %}
+          <li><a href="{% url 'login' %}"class="btn">Login</a></li>
+          <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+          <li><a href="{% url 'post_job' %}" class="btn">Post Job</a></li>
+          {% endif %}
+      </ul>
+      
+    </nav>
+    
+
+    <main> 
+     
 
       <section class="hero">
         <div class="hero-text">
           <h1>Welcome to Nokhara Job Center</h1>
           <p>Connecting job seekers with trusted employers.</p>
-          <a href="{% url 'search' %}" class="btn-primary browse-btn">Browse Jobs</a>
+          <a href="{% url 'search'%}" class="btn-primary browse-btn">Browse Jobs</a>
 
 
         </div>
@@ -139,17 +521,17 @@
           <div class="card">
             <h3>Google</h3>
             <p>Software Engineer</p>
-            <a href="{% url 'detail'%}" class="view-link">View</a>
+            <a href="detail.html" class="view-link">View</a>
           </div>
           <div class="card">
             <h3>Microsoft</h3>
             <p>Backend Developer</p>
-            <a href="{% url 'detail'%}" class="view-link">View</a>
+            <a href="detail" class="view-link">View</a>
           </div>
           <div class="card">
             <h3>Amazon</h3>
             <p>DevOps Engineer</p>
-            <a href="{% url 'detail'%}" class="view-link">View</a>
+            <a href="detail.html" class="view-link">View</a>
           </div>
         </div>
       </section>
@@ -161,12 +543,12 @@
           <div class="card">
             <h3>Netflix</h3>
             <p>Frontend Developer</p>
-            <a href="{% url 'detail'%}" class="view-link">View</a>
+            <a href="detail.html" class="view-link">View</a>
           </div>
           <div class="card">
             <h3>Apple</h3>
             <p>iOS Developer</p>
-            <a href="{% url 'detail'%}" class="view-link">View</a>
+            <a href="detail.html" class="view-link">View</a>
           </div>
         </div>
       </section>
@@ -177,19 +559,18 @@
           <h2>What Our Clients Say</h2>
           <p class="subtitle">Discover how Nokhara Job Center connects job seekers and employers through a reliable platform.</p>
           <div class="testimonial-grid">
+            {% for review in reviews %}
             <div class="testimonial-box">
-              <p>Nokhara Job Center made my job search easy and stress-free.</p>
-              <div class="user-info"><strong>Ramesh Shrestha</strong><span>Software Engineer</span></div>
-            </div>
-            <div class="testimonial-box">
-              <p>As an employer, we found quality candidates quickly.</p>
-              <div class="user-info"><strong>Sita Karki</strong><span>HR Manager</span></div>
-            </div>
-            <div class="testimonial-box">
-              <p>A great platform for freshers and experienced professionals.</p>
-              <div class="user-info"><strong>Arjun Rai</strong><span>Marketing Executive</span></div>
+              <p>{{ review.comment }}</p>
+              <div class="user-info"><strong>{{ review.full_name }}</strong>        {% if review.profession %}
+                <span>{{ review.profession }}</span>
+              {% endif %}
             </div>
           </div>
+        {% empty %}
+          <p>No reviews yet. Be the first to write one!</p>
+        {% endfor %}
+      </div>
           <a
           href="#"
           class="btn-review"
@@ -220,22 +601,24 @@
       
         
             <div class="modal-body">
-              <form>
+              <form method="POST" >
+                {% csrf_token %}
       
                 <div class="mb-3">
                   <label class="form-label">Your Review</label>
                   <textarea
                     class="form-control review-textarea"
                     rows="4"
+                    name="comment"
                   >Nokhara Job Center made my job search easy and stress-free.</textarea>
                 </div>
       
                 <div class="mb-3">
-                  <label class="form-label">Your Name</label>
+                  <label class="form-label" >Your Name</label>
                   <input
                     type="text"
                     class="form-control"
-                    value="Ramesh Shrestha"
+                    name="full_name"
                   />
                 </div>
       
@@ -244,7 +627,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    value="Software Engineer"
+                   
+                    name="profession"
                   />
                 </div>
       
@@ -261,10 +645,52 @@
           </div>
         </div>
       </div>
-            </section> {% endblock %}
+            </section> 
     </main>
 
-    {% include 'footer.html' %}
+    <footer class="site-footer">
+        <div class="footer-container layout">
+          <div class="footer-column">
+            <h4>FOR JOBSEEKER</h4>
+            <ul>
+              <li><a href="#">Search Jobs</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>FOR EMPLOYER</h4>
+            <ul>
+              <li><a href="">Login</a></li>
+              <li><a href="#">Recruitment Services</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>ABOUT US</h4>
+            <ul>
+              <li><a href="about_us.html">About Nokhara Job Center</a></li>
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-column">
+            <h4>CONTACT US</h4>
+            <p>Pokhara-8,Nagdhunga</p>
+            <p>📞 +977 1 33333</p>
+            <p>✉️ info@nokharajobcenter.com</p>
+          </div>
+        </div>
+      
+        <div class="footer-bottom layout">
+          <p>© 2025 Nokhara Job Center. All Rights Reserved.</p>
+        </div>
+      </footer>
+      
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -280,3 +706,5 @@
     </script>
   </body>
 </html>
+
+     

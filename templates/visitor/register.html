@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Nokhara Job Center</title>
+
     <style>
         body {
             margin: 0;
@@ -15,7 +16,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .register-container {
             background: white;
             border-radius: 12px;
@@ -24,225 +25,202 @@
             max-width: 450px;
             padding: 40px;
         }
-        
+
         .register-header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         .register-title {
             color: #1a237e;
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 5px;
         }
-        
+
         .register-subtitle {
             color: #666;
             font-size: 16px;
-            margin: 0;
+            margin-top: 5px;
         }
-        
+
         .form-title {
+            text-align: center;
             color: #1a237e;
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 25px;
-            text-align: center;
         }
-        
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
-        
+
         .form-group label {
             display: block;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 14px;
+            color: #333;
         }
-        
-        .required-star {
-            color: #d32f2f;
-        }
-        
+
         .form-group input {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
+            padding: 12px;
             border-radius: 8px;
+            border: 1px solid #ddd;
             font-size: 14px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
         }
-        
+
         .form-group input:focus {
             outline: none;
             border-color: #1a237e;
             box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
         }
-        
+
         .btn-register {
-            background: #1a237e;
-            color: white;
             width: 100%;
             padding: 14px;
-            border: none;
-            border-radius: 8px;
+            background: #1a237e;
+            color: white;
             font-size: 16px;
             font-weight: 600;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
             margin-top: 10px;
         }
-        
+
         .btn-register:hover {
             background: #283593;
         }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 30px 0;
-            color: #666;
-            font-size: 14px;
+
+        .error-text {
+            color: red;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
         }
-        
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .divider span {
-            padding: 0 15px;
-        }
-        
-        .btn-google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 12px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            color: #444;
-            transition: background 0.3s;
-        }
-        
-        .btn-google:hover {
-            background: #f9f9f9;
-        }
-        
-        .google-icon {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-        }
-        
+
         .login-link {
+            margin-top: 20px;
             text-align: center;
-            margin-top: 25px;
-            color: #666;
             font-size: 14px;
         }
-        
+
         .login-link a {
             color: #1a237e;
             text-decoration: none;
             font-weight: 500;
         }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
+
 <body>
-    <div class="register-container">
-        <div class="register-header">
-            <div class="register-title">Join Nokhara Job Center</div>
-            <p class="register-subtitle">Create your account to get started</p>
-        </div>
-        
-        <div class="form-title">Create Account</div>
-        
-        <form onsubmit="handleRegister(event)">
-            <div class="form-group">
-                <label for="username">Username <span class="required-star">*</span></label>
-                <input type="text" id="username" placeholder="Enter your username" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">Email Address <span class="required-star">*</span></label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">Phone Number <span class="required-star">*</span></label>
-                <input type="tel" id="phone" placeholder="Enter your phone number" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Password <span class="required-star">*</span></label>
-                <input type="password" id="password" placeholder="Create a password" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password <span class="required-star">*</span></label>
-                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
-            </div>
-            
-            <button type="submit" class="btn-register">Create Account</button>
-        </form>
-        
-        <div class="divider">
-            <span>Or continue with</span>
-        </div>
-        
-        <button class="btn-google" onclick="signUpWithGoogle()">
-            <svg class="google-icon" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Sign up with Google
-        </button>
-        
-        <div class="login-link">
-            Already have an account? <a href="{% url 'login' %}">Login here</a>
-        </div>
+
+<div class="register-container">
+
+    <div class="register-header">
+        <div class="register-title">Join Nokhara Job Center</div>
+        <div class="register-subtitle">Create your account to get started</div>
     </div>
 
-    <script>
-        function handleRegister(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if(password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            if(username && email && phone && password) {
-                console.log('Registration attempt:', {username, email, phone});
-                alert('Registration would connect to backend here.');
-            }
+    <div class="form-title">Create Account</div>
+
+    <!-- ✅ DJANGO FORM -->
+    <form method="POST" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Username *</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone *</label>
+            <input type="tel" name="phone" id="phone"  required>
+            <div id="phone-error" class="error-text">Enter a valid  phone number starting with 97 or 98</div>
+        </div>
+
+        <div class="form-group">
+            <label>Password *</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password *</label>
+            <input type="password" name="confirm_password" id="confirm_password" required>
+            <div id="error" class="error-text">Passwords do not match</div>
+        </div>
+
+        <button type="submit" class="btn-register">Create Account</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="{% url 'login' %}">Login here</a>
+    </div>
+
+</div>
+
+<script>
+    const phoneInput = document.getElementById("phone");
+    const phoneError = document.getElementById("phone-error");
+    
+    // Prevent typing more than 10 digits
+    phoneInput.addEventListener("input", function() {
+        // Remove non-digits
+        this.value = this.value.replace(/\D/g, '');
+    
+        // Limit length to 10 digits
+        if (this.value.length > 10) {
+            this.value = this.value.slice(0, 10);
         }
-        
-        function signUpWithGoogle() {
-            alert('Google sign-up would redirect to OAuth here.');
+    });
+    
+    // Validate on blur (when user leaves the field)
+    phoneInput.addEventListener("blur", function() {
+        const phoneRegex = /^(97|98)\d{8}$/;
+        if (!phoneRegex.test(this.value)) {
+            phoneError.style.display = "block";
+        } else {
+            phoneError.style.display = "none";
         }
+    });
+    
+    // Also validate form before submit
+    function validateForm() {
+        const password = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm_password").value;
+        const phone = phoneInput.value;
+    
+        const error = document.getElementById("error");
+    
+        let valid = true;
+    
+        // Password match check
+        if (password !== confirm) {
+            error.style.display = "block";
+            valid = false;
+        } else {
+            error.style.display = "none";
+        }
+    
+        // Phone validation
+        const phoneRegex = /^(97|98)\d{8}$/;
+        if (!phoneRegex.test(phone)) {
+            phoneError.style.display = "block";
+            valid = false;
+        } else {
+            phoneError.style.display = "none";
+        }
+    
+        return valid;
+    }
     </script>
+
 </body>
 </html>

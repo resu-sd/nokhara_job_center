@@ -12,7 +12,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    /* ================= BASE ================= */
+
     <style>
     body {
       margin: 0;
@@ -28,8 +28,7 @@
     }
     
     
-    
-    /* ================= NAVBAR ================= */
+   
     .custom-navbar {
       display: flex;
       align-items: center;
@@ -47,6 +46,7 @@
     
     .logo img {
       height: 48px;
+      
     }
     
     .nav-links {
@@ -99,9 +99,9 @@
     
     
     
-    /* ================= HERO ================= */
+  
     .hero {
-      /* margin-top: 64px; */
+     
       background: linear-gradient(to right, #525ea1, #414e96);
       color: white;
       padding: 80px 40px;
@@ -115,7 +115,7 @@
       font-size: 18px;
     }
     
-    /* ================= SEARCH ================= */
+
     .search {
             display: flex;
             gap: 10px;
@@ -142,7 +142,6 @@
             cursor: pointer;
           }
     
-          /* ===== JOB SECTIONS ===== */
           .card-type {
             margin-top: 30px;
             margin-bottom: 15px;
@@ -230,7 +229,7 @@
           
     
           
-    /* ================= MOBILE ================= */
+ 
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -334,7 +333,7 @@
     
     @media (max-width: 576px) {
     
-      /* Make footer columns align in one row */
+    
       .footer-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -342,14 +341,20 @@
         text-align: center;
       }
     
-      /* Footer titles style */
+   
+      .footer-column ul,
+      .footer-column p {
+        display: none;
+      }
+    
+   
       .footer-column h4 {
         font-size: 11px;
         margin-bottom: 0;
         white-space: nowrap;
       }
     
-      /* Reduce footer padding */
+   
       .site-footer {
         padding: 20px 0 10px;
       }
@@ -413,7 +418,7 @@
   box-shadow: 0 0 0 0.2rem rgba(67, 80, 153, 0.15);
 }
 
-/* Textarea */
+
 .review-textarea {
   resize: none;
 }
@@ -535,19 +540,19 @@
           <h2>What Our Clients Say</h2>
           <p class="subtitle">Discover how Nokhara Job Center connects job seekers and employers through a reliable platform.</p>
           <div class="testimonial-grid">
+            {% for review in reviews %}
             <div class="testimonial-box">
-              <p>Nokhara Job Center made my job search easy and stress-free.</p>
-              <div class="user-info"><strong>Ramesh Shrestha</strong><span>Software Engineer</span></div>
-            </div>
-            <div class="testimonial-box">
-              <p>As an employer, we found quality candidates quickly.</p>
-              <div class="user-info"><strong>Sita Karki</strong><span>HR Manager</span></div>
-            </div>
-            <div class="testimonial-box">
-              <p>A great platform for freshers and experienced professionals.</p>
-              <div class="user-info"><strong>Arjun Rai</strong><span>Marketing Executive</span></div>
+              <p>{{ review.comment }}</p>
+              <div class="user-info"><strong>{{ review.full_name }}</strong>        {% if review.profession %}
+                <span>{{ review.profession }}</span>
+              {% endif %}
             </div>
           </div>
+        {% empty %}
+          <p>No reviews yet. Be the first to write one!</p>
+        {% endfor %}
+      </div>
+              
           <a
           href="#"
           class="btn-review"
@@ -644,7 +649,7 @@
           <div class="footer-column">
             <h4>ABOUT US</h4>
             <ul>
-              <li><a href="#">About Nokhara Job Center</a></li>
+              <li><a href="about_us.html">About Nokhara Job Center</a></li>
               <li><a href="#">Facebook</a></li>
               <li><a href="#">Twitter</a></li>
               <li><a href="#">LinkedIn</a></li>

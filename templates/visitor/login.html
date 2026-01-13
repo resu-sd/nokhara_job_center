@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Login - Nokhara Job Center</title>
     <style>
         body {
@@ -16,7 +15,6 @@
             min-height: 100vh;
             padding: 20px;
         }
-        
         .login-container {
             background: white;
             border-radius: 12px;
@@ -25,25 +23,21 @@
             max-width: 450px;
             padding: 40px;
         }
-        
         .welcome-header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
         .welcome-title {
             color: #1a237e;
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 5px;
         }
-        
         .welcome-subtitle {
             color: #666;
             font-size: 16px;
             margin: 0;
         }
-        
         .login-title {
             color: #1a237e;
             font-size: 20px;
@@ -51,11 +45,9 @@
             margin-bottom: 25px;
             text-align: center;
         }
-        
         .form-group {
             margin-bottom: 20px;
         }
-        
         .form-group label {
             display: block;
             color: #333;
@@ -63,7 +55,6 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
-        
         .form-group input {
             width: 100%;
             padding: 12px 16px;
@@ -73,13 +64,11 @@
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
-        
         .form-group input:focus {
             outline: none;
             border-color: #1a237e;
             box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
         }
-        
         .btn-login {
             background: #1a237e;
             color: white;
@@ -93,27 +82,30 @@
             transition: background 0.3s;
             margin-top: 10px;
         }
-        
         .btn-login:hover {
             background: #283593;
         }
-        
         .register-link {
             text-align: center;
             margin-top: 25px;
             color: #666;
             font-size: 14px;
         }
-        
         .register-link a {
             color: #1a237e;
             text-decoration: none;
             font-weight: 500;
         }
-        
         .register-link a:hover {
             text-decoration: underline;
         }
+        .message {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .message.success { color: green; }
+        .message.error { color: red; }
     </style>
 </head>
 <body>
@@ -124,16 +116,26 @@
         </div>
         
         <div class="login-title">Login</div>
-        
-        <form onsubmit="handleLogin(event)">
+
+        <!-- Django messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <label for="username_or_email">Username or Email</label>
+                <input type="text" id="username_or_email" name="username_or_email" placeholder="Enter your username or email" required>
             </div>
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
             
             <button type="submit" class="btn-login">Login</button>
@@ -143,18 +145,5 @@
             Don't have an account? <a href="{% url 'register' %}">Register here</a>
         </div>
     </div>
-
-    <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if(email && password) {
-                console.log('Login attempt with:', email);
-                alert('Login functionality would connect to backend here.');
-            }
-        }
-    </script>
 </body>
 </html>
