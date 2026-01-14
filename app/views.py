@@ -1,8 +1,8 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login,logout
-from .models import Review
+from .models import Review,Job,JobRequirement,JobBenefit
 from django.contrib.auth import get_user_model
 # Create your views here.
 User = get_user_model()
@@ -22,7 +22,13 @@ def home(request):
 
    
     reviews = Review.objects.all()
-    return render(request, "visitor/home.html", {"reviews": reviews})
+    recent_jobs = Job.objects.order_by('-id')[:5]
+    context = {
+        "reviews": reviews,
+        "recent_jobs": recent_jobs
+    }
+
+    return render(request, "visitor/home.html", context)
 
 def register(request):
     if request.method == "POST":
@@ -67,8 +73,19 @@ def register(request):
 
     return render(request, "visitor/register.html")
 
-def detail(request):
-     return render(request,"detail.html")
+def detail(request, job_id):
+    # Fetch job or 404 if not found
+    job = get_object_or_404(Job, id=job_id)
+
+    # Fetch requirements and benefits
+    requirements = JobRequirement.objects.filter(job=job)
+    benefits = JobBenefit.objects.filter(job=job)
+
+    return render(request, "detail.html", {
+        "job": job,
+        "requirements": requirements,
+        "benefits": benefits,
+    })
 
 
 def faq(request):
@@ -108,4 +125,39 @@ def search(request):
 
 
 def post_job(request):
-     return render(request,'post_job.html')
+    
+    if request.method == "POST":
+        title = request.POST.get('jobTitle')
+        location = request.POST.get('location')
+        job_type = request.POST.get('jobType')
+        salary = request.POST.get('salaryRange')
+        expiry_date = request.POST.get('expiryDate')
+        description = request.POST.get('jobDescription')
+
+        job = Job.objects.create(
+         
+            title=title,
+            location=location,
+            job_type=job_type,
+            salary_range=salary,
+            expiry_date=expiry_date,
+            description=description
+        )
+
+       
+        requirements = request.POST.getlist('requirements[]')
+        for req in requirements:
+            if req.strip():
+                JobRequirement.objects.create(job=job, text=req)
+
+      
+        benefits = request.POST.getlist('benefits[]')
+        for ben in benefits:
+            if ben.strip():
+                JobBenefit.objects.create(job=job, text=ben)
+
+        messages.success(request, "Job posted successfully!")
+        return redirect('post_job')
+
+    return render(request, 'post_job.html')
+  

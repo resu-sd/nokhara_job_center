@@ -302,23 +302,24 @@
                 <div class="form-card">
                     <h2 class="card-title">Job Details</h2>
                     
-                    <form id="jobPostForm">
+                    <form method="POST">
+                        {% csrf_token %}
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="jobTitle">Job Title *</label>
-                                <input type="text" id="jobTitle" class="form-control" placeholder="e.g. Software Engineer" required>
+                                <input type="text" id="jobTitle" class="form-control" name="jobTitle" placeholder="e.g. Software Engineer" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="location">Location *</label>
-                                <input type="text" id="location" class="form-control" placeholder="e.g. Sanepa, Kathmandu" required>
+                                <input type="text" id="location" class="form-control"name="location" placeholder="e.g. Sanepa, Kathmandu" required>
                             </div>
                             
                             <div class="form-group">
                                 <label for="jobType">Job Type *</label>
-                                <select id="jobType" class="form-control" required>
+                                <select id="jobType" name="jobType" class="form-control" required>
                                     <option value="">Select job type</option>
                                     <option value="Full Time">Full Time</option>
                                     <option value="Part Time">Part Time</option>
@@ -326,26 +327,27 @@
                                     <option value="Internship">Internship</option>
                                     <option value="Remote">Remote</option>
                                 </select>
+                                
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="salaryRange">Salary Range</label>
-                                <input type="text" id="salaryRange" class="form-control" placeholder="e.g. NRs. 25,000 – 35,000">
+                                <input type="text" id="salaryRange" name="salaryRange" class="form-control" placeholder="e.g. NRs. 25,000 – 35,000">
                             </div>
                             
                             <div class="form-group">
                                 <label for="expiryDate">Application Deadline *</label>
-                                <input type="date" id="expiryDate" class="form-control" required>
+                                <input type="date" id="expiryDate"  name="expiryDate"  class="form-control" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="jobDescription">Job Description *</label>
-                            <textarea id="jobDescription" class="form-control" placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..." required></textarea>
+                            <textarea id="jobDescription"  name="jobDescription" class="form-control" placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..." required></textarea>
                         </div>
-                    </form>
+                  
                 </div>
                 
                 <div class="form-card">
@@ -353,11 +355,11 @@
                     
                     <ul class="requirements-list" id="requirementsList">
                         <li>
-                            <input type="text" class="form-control req-input" placeholder="e.g. Bachelor's degree in Computer Science">
+                            <input type="text" name="requirements[]" class="form-control req-input">
                             <button type="button" class="remove-btn">×</button>
                         </li>
                         <li>
-                            <input type="text" class="form-control req-input" placeholder="e.g. Experience with Python, JavaScript">
+                            <input type="text" name="requirements[]" class="form-control req-input">
                             <button type="button" class="remove-btn">×</button>
                         </li>
                     </ul>
@@ -372,10 +374,12 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="e.g. Health insurance">
+                            <input type="text" name="benefits[]" class="form-control">
+
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="e.g. Paid leave">
+                            <input type="text" name="benefits[]" class="form-control">
+
                         </div>
                     </div>
                     
@@ -393,7 +397,7 @@
                     <button type="submit" class="btn-primary-post" id="submitBtn">Post Job</button>
                 </div>
             </div>
-            
+        </form>
             <div class="sidebar">
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Tips for a Good Job Post</h3>
@@ -436,29 +440,7 @@
                 });
             });
             
-            document.getElementById('submitBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const requiredFields = ['jobTitle', 'companyName', 'location', 'jobType', 'expiryDate', 'jobDescription'];
-                let isValid = true;
-                
-                requiredFields.forEach(fieldId => {
-                    const field = document.getElementById(fieldId);
-                    if (!field.value.trim()) {
-                        field.style.borderColor = '#f44336';
-                        isValid = false;
-                    } else {
-                        field.style.borderColor = '#dadce0';
-                    }
-                });
-                
-                if (!isValid) {
-                    alert('Please fill in all required fields marked with *');
-                    return;
-                }
-                
-                alert('Job posted successfully!');
-            });
+            
         });
     </script>
 </body>

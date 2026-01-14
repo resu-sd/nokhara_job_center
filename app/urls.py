@@ -5,7 +5,7 @@ from .views import home,register,detail,faq,search,post_job,login_view,logout_vi
 urlpatterns = [
     path('', home, name='home'),
   path("register/", register, name="register"),
-  path("detail/",detail,name="detail"),
+   path('detail/<int:job_id>/', detail, name='detail'),  
   path("faq/",faq,name="faq"),
   path("register/",register,name="register"),
   path("login_view/",login_view,name='login'),

@@ -518,23 +518,18 @@
       <section class="layout job-section">
         <h2 class="card-type">Recently Added</h2>
         <div class="cards-container">
-          <div class="card">
-            <h3>Google</h3>
-            <p>Software Engineer</p>
-            <a href="detail.html" class="view-link">View</a>
-          </div>
-          <div class="card">
-            <h3>Microsoft</h3>
-            <p>Backend Developer</p>
-            <a href="detail" class="view-link">View</a>
-          </div>
-          <div class="card">
-            <h3>Amazon</h3>
-            <p>DevOps Engineer</p>
-            <a href="detail.html" class="view-link">View</a>
-          </div>
+            {% for job in recent_jobs %}
+            <div class="card">
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.location }} - {{ job.job_type }}</p>
+                <a href="{% url 'detail' job.id %}" class="view-link">View</a>
+            </div>
+            {% empty %}
+            <p>No jobs posted yet.</p>
+            {% endfor %}
         </div>
-      </section>
+    </section>
+    
 
  
       <section class="layout job-section">
@@ -654,7 +649,7 @@
             <h4>FOR JOBSEEKER</h4>
             <ul>
               <li><a href="#">Search Jobs</a></li>
-              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="{% url 'faq'%}">FAQ</a></li>
             </ul>
           </div>
       
