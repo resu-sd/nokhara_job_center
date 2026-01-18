@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
    
     <title>Post a Job - Employer Portal</title>
     <style>
@@ -594,6 +595,55 @@
       </footer>
       
     <script>
+            
+        tinymce.init({
+            selector: '#jobDescription',
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
+            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image | removeformat',
+            
+            // --- IMAGE RESIZING SETTINGS ---
+            object_resizing: true, // Enables handles to resize images
+            image_dimensions: true, // Shows width/height inputs in image dialog
+            image_title: true,
+            
+            // Content style ensures images don't break the editor layout
+            content_style: 'body { font-family:Arial,sans-serif; font-size:16px } img { max-width: 100%; height: auto; cursor: pointer; }',
+            
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            promotion: false,
+            branding: false,
+
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
+            },
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    var style = document.createElement('style');
+                    style.innerHTML = '.tox-notification--warning { display: none !important; }';
+                    document.head.appendChild(style);
+                });
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const expiryDate = new Date();
             expiryDate.setDate(expiryDate.getDate() + 30);
