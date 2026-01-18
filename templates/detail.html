@@ -54,7 +54,7 @@
                 <p><span>Status:</span> {{ job.job_type }}</p>
                 <p><span>Published Date:</span> {{ job.created_at|date:"Y-m-d" }}</p>
                 <p><span>Expiry Date:</span> {{ job.expiry_date|date:"Y-m-d" }}</p>
-                <p><span>Created By:</span> {{ job.created_by.username }}</p>
+                <p><span>Created By:</span> {{ job.created_by.username|default:"admin" }}</p>
             </div>
 
             <div class="job-info">

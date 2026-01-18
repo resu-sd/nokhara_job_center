@@ -7,309 +7,64 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>Post a Job - Employer Portal</title>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-          }
-      
-          body {
-            background-color: #f0f2f5;
-            color: #333;
-            line-height: 1.6;
-          }
-        
-        .job-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 20px; /* top padding = navbar height + spacing */
-          }
-      
-          header {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1a73e8;
-        }
-        
-        .job-links {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .job-links a {
-            text-decoration: none;
-            color: #5f6368;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        
-        .job-links a:hover {
-            background-color: #f1f3f4;
-        }
-        
-        .job-links a.active {
-            color: #1a73e8;
-            background-color: #e8f0fe;
-        }
-        
-        .page-title {
-            font-size: 28px;
-            color: #202124;
-            margin-bottom: 10px;
-        }
-        
-        .page-subtitle {
-            color: #5f6368;
-            margin-bottom: 30px;
-            font-size: 16px;
-        }
-        
-        .content-container {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .main-content {
-            flex: 3;
-        }
-        
-        .sidebar {
-            flex: 1;
-        }
-        
-        .form-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .card-title {
-            font-size: 20px;
-            color: #202124;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e8eaed;
-        }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #3c4043;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #1a73e8;
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .requirements-list {
-            list-style-type: none;
-        }
-        
-        .requirements-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .req-input {
-            flex: 1;
-            margin-right: 10px;
-        }
-        
-        .remove-btn {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .add-btn {
-            background-color: #34a853;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            margin-top: 10px;
-        }
-        
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e8eaed;
-        }
-        
-        .btn-primary-post {
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .btn-primary-post:hover {
-            background-color: #0d62d9;
-        }
-        
-        .btn-secondary {
-            background-color: #f1f3f4;
-            color: #3c4043;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e8eaed;
-        }
-        
-        .sidebar-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .sidebar-title {
-            font-size: 18px;
-            color: #202124;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e8eaed;
-        }
-        
-        .tips-list {
-            list-style-type: none;
-        }
-        
-        .tips-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #5f6368;
-        }
-        
-        .tips-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .tip-icon {
-            color: #34a853;
-            margin-right: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .content-container {
-                flex-direction: column;
-            }
-            
-            .job-links {
-                display: none;
-            }
-            
-            .form-row {
-                flex-direction: column;
-            }
-            
-            .form-group {
-                min-width: 100%;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f0f2f5; color: #333; line-height: 1.6; }
+        .job-container { max-width: 1200px; margin: 0 auto; padding: 80px 20px 20px; }
+        header { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #1a73e8; }
+        .job-links { display: flex; gap: 20px; }
+        .job-links a { text-decoration: none; color: #5f6368; font-weight: 500; padding: 8px 16px; border-radius: 4px; transition: background-color 0.2s; }
+        .job-links a:hover { background-color: #f1f3f4; }
+        .job-links a.active { color: #1a73e8; background-color: #e8f0fe; }
+        .page-title { font-size: 28px; color: #202124; margin-bottom: 10px; }
+        .page-subtitle { color: #5f6368; margin-bottom: 30px; font-size: 16px; }
+        .content-container { display: flex; gap: 30px; }
+        .main-content { flex: 3; }
+        .sidebar { flex: 1; }
+        .form-card { background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 30px; margin-bottom: 30px; }
+        .card-title { font-size: 20px; color: #202124; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #e8eaed; }
+        .form-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .form-group { flex: 1; min-width: 250px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #3c4043; font-weight: 500; }
+        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; }
+        .requirements-list { list-style-type: none; }
+        .requirements-list li { display: flex; align-items: center; margin-bottom: 10px; }
+        .req-input { flex: 1; margin-right: 10px; }
+        .remove-btn { background-color: #f44336; color: white; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .add-btn { background-color: #34a853; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: 500; margin-top: 10px; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e8eaed; }
+        .btn-primary-post { background-color: #1a73e8; color: white; border: none; padding: 12px 30px; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; }
+        .sidebar-card { background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 25px; margin-bottom: 30px; }
+        .sidebar-title { font-size: 18px; color: #202124; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #e8eaed; }
+        .tips-list { list-style-type: none; }
+        .tips-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #5f6368; }
     </style>
 </head>
 <body>
     {% include 'nav.html' %}
 
-      <textarea>
-        Welcome to TinyMCE!
-      </textarea>
     <div class="job-container">
         <header>
             <div class="logo">JobPortal Employers</div>
             <div class="job-links">
                 <a href="#" class="active">Post Job</a>
-              
                 <a href="#">Account</a>
             </div>
         </header>
         
         <h1 class="page-title">Post a New Job</h1>
-        <p class="page-subtitle">Fill out the form below to post your job opening and find the right candidate</p>
+        <p class="page-subtitle">Fill out the form below to post your job opening.</p>
         
-        <div class="content-container">
-            <div class="main-content">
-                <div class="form-card">
-                    <h2 class="card-title">Job Details</h2>
-                    
-                    <form method="POST">
-                        {% csrf_token %}
+        <form method="POST" id="jobPostForm">
+            {% csrf_token %}
+            <div class="content-container">
+                <div class="main-content">
+                    <div class="form-card">
+                        <h2 class="card-title">Job Details</h2>
+                        
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="jobTitle">Job Title *</label>
@@ -320,7 +75,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="location">Location *</label>
-                                <input type="text" id="location" class="form-control"name="location" placeholder="e.g. Sanepa, Kathmandu" required>
+                                <input type="text" id="location" class="form-control" name="location" placeholder="e.g. Sanepa, Kathmandu" required>
                             </div>
                             
                             <div class="form-group">
@@ -333,7 +88,6 @@
                                     <option value="Internship">Internship</option>
                                     <option value="Remote">Remote</option>
                                 </select>
-                                
                             </div>
                         </div>
                         
@@ -345,115 +99,139 @@
                             
                             <div class="form-group">
                                 <label for="expiryDate">Application Deadline *</label>
-                                <input type="date" id="expiryDate"  name="expiryDate"  class="form-control" required>
+                                <input type="date" id="expiryDate" name="expiryDate" class="form-control" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="jobDescription">Job Description *</label>
-                            <textarea id="jobDescription"
-                            name="jobDescription"
-                            class="form-control"
-                            placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..."
-                            required></textarea>
-                  
-                        </div>
-                  
-                </div>
-                
-                <div class="form-card">
-                    <h2 class="card-title">Requirements</h2>
-                    
-                    <ul class="requirements-list" id="requirementsList">
-                        <li>
-                            <input type="text" name="requirements[]" class="form-control req-input">
-                            <button type="button" class="remove-btn">×</button>
-                        </li>
-                        <li>
-                            <input type="text" name="requirements[]" class="form-control req-input">
-                            <button type="button" class="remove-btn">×</button>
-                        </li>
-                    </ul>
-                    
-                    <button type="button" class="add-btn" id="addRequirement">
-                        Add Requirement
-                    </button>
-                </div>
-                
-                <div class="form-card">
-                    <h2 class="card-title">Benefits</h2>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" name="benefits[]" class="form-control">
-
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="benefits[]" class="form-control">
-
+                            <textarea id="jobDescription" name="jobDescription" class="form-control"></textarea>
                         </div>
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="e.g. Flexible working hours">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="e.g. Remote work options">
+                    <div class="form-card">
+                        <h2 class="card-title">Requirements</h2>
+                        <ul class="requirements-list" id="requirementsList">
+                            <li>
+                                <input type="text" name="requirements[]" class="form-control req-input">
+                                <button type="button" class="remove-btn">×</button>
+                            </li>
+                        </ul>
+                        <button type="button" class="add-btn" id="addRequirement">Add Requirement</button>
+                    </div>
+
+                    <div class="form-card">
+                        <h2 class="card-title">Benefits</h2>
+                        <div class="form-row">
+                            <div class="form-group"><input type="text" name="benefits[]" class="form-control" placeholder="e.g. Health Insurance"></div>
+                            <div class="form-group"><input type="text" name="benefits[]" class="form-control" placeholder="e.g. Paid Time Off"></div>
                         </div>
                     </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary-post" id="submitBtn">Post Job</button>
+                    </div>
                 </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary-post" id="submitBtn">Post Job</button>
+
+                <div class="sidebar">
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Tips for a Good Job Post</h3>
+                        <ul class="tips-list">
+                            <li>Be specific about job requirements</li>
+                            <li>Include salary range to attract more applicants</li>
+                            <li>Click and drag image corners to resize</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </form>
-            <div class="sidebar">
-                <div class="sidebar-card">
-                    <h3 class="sidebar-title">Tips for a Good Job Post</h3>
-                    <ul class="tips-list">
-                        <li>Be specific about job requirements</li>
-                        <li>Include salary range to attract more applicants</li>
-                        <li>Highlight company culture and benefits</li>
-                        <li>Use clear, concise language</li>
-                        <li>Set a realistic application deadline</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
-     {% include 'footer.html' %}
+
+    {% include 'footer.html' %}
+
     <script>
+        tinymce.init({
+            selector: '#jobDescription',
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
+            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image | removeformat',
+            
+            // --- IMAGE RESIZING SETTINGS ---
+            object_resizing: true, // Enables handles to resize images
+            image_dimensions: true, // Shows width/height inputs in image dialog
+            image_title: true,
+            
+            // Content style ensures images don't break the editor layout
+            content_style: 'body { font-family:Arial,sans-serif; font-size:16px } img { max-width: 100%; height: auto; cursor: pointer; }',
+            
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            promotion: false,
+            branding: false,
+
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
+            },
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    var style = document.createElement('style');
+                    style.innerHTML = '.tox-notification--warning { display: none !important; }';
+                    document.head.appendChild(style);
+                });
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Set default expiry date
             const expiryDate = new Date();
             expiryDate.setDate(expiryDate.getDate() + 30);
-            const expiryDateString = expiryDate.toISOString().split('T')[0];
-            document.getElementById('expiryDate').value = expiryDateString;
+            document.getElementById('expiryDate').value = expiryDate.toISOString().split('T')[0];
             
+            // Add Requirement Logic
             document.getElementById('addRequirement').addEventListener('click', function() {
-                const requirementsList = document.getElementById('requirementsList');
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <input type="text" class="form-control req-input" placeholder="e.g. Additional requirement">
+                    <input type="text" name="requirements[]" class="form-control req-input" placeholder="e.g. Additional requirement">
                     <button type="button" class="remove-btn">×</button>
                 `;
-                requirementsList.appendChild(li);
-                
-                li.querySelector('.remove-btn').addEventListener('click', function() {
-                    li.remove();
-                });
+                document.getElementById('requirementsList').appendChild(li);
             });
             
-            document.querySelectorAll('.remove-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.parentElement.remove();
-                });
+            // Remove Requirement Logic
+            document.getElementById('requirementsList').addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-btn')) {
+                    e.target.parentElement.remove();
+                }
             });
-            
-            
+
+            // Form Submit Logic
+            document.getElementById('jobPostForm').addEventListener('submit', function(e) {
+                tinymce.triggerSave();
+                const descriptionContent = document.getElementById('jobDescription').value;
+                if (!descriptionContent.trim()) {
+                    e.preventDefault();
+                    alert('Job Description is required!');
+                }
+            });
         });
     </script>
-    
 </body>
 </html>
