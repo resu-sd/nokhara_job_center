@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main>
+			<section class="hero">
+				<div class="hero-text">
+					<h1>Welcome to pokhara Job Center</h1>
+					<p>Connecting job seekers with trusted employers.</p>
+					<a href="{% url 'search'%}" class="btn-primary browse-btn">Browse Jobs</a>
+				</div>
+			</section>
+			<section class="layout">
+				<form class="search" action="{% url 'search' %}" method="get">
+					<input type="text" name="q" placeholder="Job title or keyword" />
+					<input type="text" name="location" placeholder="Location" />
+					<button>Search</button>
+				</form>
+			</section>
+			<section class="layout job-section">
+				<h2 class="card-type">Categories</h2>
+				<div class="d-flex gap-4" style="overflow-x: auto; flex-wrap: nowrap; padding-bottom: 10px;"> {% for category in categories %} <div class="text-center" style="flex-shrink: 0;">
+						<a href="{% url 'category_detail' category.slug %}" class="text-dark text-small text-decoration-none">
+							<div class="rounded-circle" style="width: 50px; height: 50px; background-color: {{ category.color }};"></div>
+							{{ category.name }}
+						</a>
+					</div> {% empty %} <p>No categories available.</p> {% endfor %} </div>
+			</section>
+			<section class="layout job-section">
+				<h2 class="card-type">Recently Added</h2>
+				<div class="cards-container"> {% for job in recent_jobs %} <div class="card">
+						<h3>{{ job.title }}</h3>
+						<p>{{ job.location }} - {{ job.job_type }}</p>
+						<a href="{% url 'detail' job.id %}" class="view-link">View</a>
+					</div> {% empty %} <p>No jobs posted yet.</p> {% endfor %} </div>
+			</section>
+			<section class="layout job-section">
+				<h2 class="card-type">Top Jobs</h2>
+				<div class="cards-container"> {% for job in top_jobs %} <div class="card">
+						<h3>{{ job.title }}</h3>
+						<p>{{ job.location }}</p>
+						<a href="{% url 'detail' job.id %}" class="view-link">View</a>
+					</div> {% empty %} <p>No jobs viewed yet.</p> {% endfor %} </div>
+			</section>
+			<section class="client-say">
+				<div class="layout">
+					<h2>What Our Clients Say</h2>
+					<p class="subtitle">Discover how pokhara Job Center connects job seekers and employers through a reliable platform.</p>
+					<div class="testimonial-grid"> {% for review in reviews %} <div class="testimonial-box">
+							<p>{{ review.comment }}</p>
+							<div class="user-info">
+								<strong>{{ review.full_name }}</strong> {% if review.profession %} <span>{{ review.profession }}</span> {% endif %}
+							</div>
+						</div> {% empty %} <p>No reviews yet. Be the first to write one!</p> {% endfor %} </div>
+					<a href="#" class="btn-review" data-bs-toggle="modal" data-bs-target="#reviewModal"> Write a Review </a>
+					<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content review-modal">
+								<div class="modal-header border-0">
+									<h5 class="modal-title">Write a Review</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+								</div>
+								<div class="modal-body">
+									<form method="POST"> {% csrf_token %} <div class="mb-3">
+											<label class="form-label">Your Review</label>
+											<textarea class="form-control review-textarea" rows="4" name="comment">pokhara Job Center made my job search easy and stress-free.</textarea>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Your Name</label>
+											<input type="text" class="form-control" name="full_name" />
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Profession</label>
+											<input type="text" class="form-control" name="profession" />
+										</div>
+										<button type="submit" class="btn btn-primary w-100 submit-review-btn"> Submit Review </button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+			</section>
+		</main>
+{% endblock content %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-5 text-white" style="background: linear-gradient(135deg, #3f51b5 0%, #283593 100%);">
+    <div class="container py-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
+            </ol>
+        </nav>
+        <h1 class="display-5 fw-bold">Welcome to Pokhara Job Center</h1>
+        <p class="lead opacity-75">Connecting job seekers with trusted employers.</p>
+        <a href="#jobs" class="btn btn-primary btn-lg mt-2 shadow-sm">Browse Jobs</a>
+    </div>
+</section>
+
+<div class="container" style="margin-top: -35px;">
+    <div class="card shadow border-0 p-3">
+        <form method="GET" action="{% url 'search' %}" class="row g-2">
+            <div class="col-md-5">
+                <input type="text" name="q" class="form-control form-control-lg border-0 bg-light" placeholder="Job title or keyword">
+            </div>
+            <div class="col-md-5">
+                <input type="text" name="location" class="form-control form-control-lg border-0 bg-light" placeholder="Location">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary btn-lg w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-5" id="jobs">
+    
+    <h5 class="fw-bold mb-3 text-secondary">Categories</h5>
+        <div class="d-flex overflow-x-auto pb-3 gap-3 no-scrollbar" style="-webkit-overflow-scrolling: touch;">
+    {% for category in categories %}
+    <div class="text-center flex-shrink-0" style="width: 100px;">
+        <a href="{% url 'category_detail' category.slug %}" class="text-decoration-none group">
+            <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center mx-auto border transition-all" 
+                 style="width: 70px; height: 70px; background-color: {{ category.color|default:'#3f51b5' }};">
+                <i class="fas fa-{{ category.icon_class }} text-white fs-3"></i>
+            </div>
+            <p class="small mt-2 fw-medium text-dark mb-0 text-truncate">{{ category.name }}</p>
+        </a>
+    </div>
+    {% empty %}
+    <p class="text-muted ps-2">No categories found.</p>
+    {% endfor %}
+</div>
+
+<style>
+    .transition-all { transition: all 0.3s ease; transform: scale(0.9); }
+    .transition-all:hover { transform: scale(1.05); filter: brightness(1.1); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <h5 class="fw-bold mb-3 text-secondary">Recently Added</h5>
+            <div class="row g-3">
+                {% for job in recent_jobs %}
+                <div class="col-md-6 col-lg-8">
+                    <div class="card h-100 shadow-sm border-0 text-center p-3">
+                        <div class="card-body">
+                            <h5 class="fw-bold">{{ job.title }}</h5>
+                            <p class="text-muted small mb-3">{{ job.location }} - {{ job.type }}</p>
+                            <a href="#" class="btn btn-sm btn-link text-decoration-none">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <h5 class="fw-bold mb-3 text-secondary">Top Jobs</h5>
+            <div class="row g-3">
+                {% for job in top_jobs %}
+                <div class="col-md-6 col-lg-8">
+                    <div class="card h-100 shadow-sm border-0 text-center p-3">
+                        <div class="card-body">
+                            <h5 class="fw-bold">{{ job.title }}</h5>
+                            <p class="text-muted small mb-3">{{ job.location }}</p>
+                            <a href="#" class="btn btn-sm btn-link text-decoration-none">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="bg-white border-top border-bottom py-5 mt-5">
+    <div class="container text-center py-4">
+        <h2 class="fw-bold text-primary mb-3">What Our Clients Say</h2>
+        <p class="text-muted col-md-8 mx-auto mb-4">Discover how Pokhara Job Center connects job seekers and employers through a reliable platform.</p>
+        
+        <div class="bg-light p-5 rounded-4 border border-dashed text-muted">
+            <p class="mb-4">No reviews yet. Be the first to write one!</p>
+            <button class="btn btn-primary px-4">Write a Review</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

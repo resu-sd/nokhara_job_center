@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-iov!brhx1tz+1$y6engi8(qdun*=1mw=vojr0*4ooa#lezio#&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'nokhara_job_center.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['newtemplates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -174,5 +174,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
-
+LOGIN_URL='/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

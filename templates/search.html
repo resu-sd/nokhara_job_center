@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Find Your Dream Job</h1>
+    <p>Browse job opportunities and visit our office to apply</p>
+</div>
+
+<div class="container">
+    <div class="search-box">
+        <form class="search-form" method="get" >
+            <input type="text" name="q" placeholder="Job title or keyword" value="{{ keyword }}">
+            <input type="text" name="location" placeholder="Location" value="{{ location }}">
+            <button type="submit" class="btn-search">Search</button>
+        </form>
+        <div class="filter-chips">
+            <span class="filter-chip {% if job_type == 'All' %}active{% endif %}" data-type="All">All Jobs</span>
+            <span class="filter-chip {% if job_type == 'Full Time' %}active{% endif %}" data-type="Full Time">Full Time</span>
+            <span class="filter-chip {% if job_type == 'Part Time' %}active{% endif %}" data-type="Part Time">Part Time</span>
+            <span class="filter-chip {% if job_type == 'Remote' %}active{% endif %}" data-type="Remote">Remote</span>
+            <span class="filter-chip {% if job_type == 'Internship' %}active{% endif %}" data-type="Internship">Internship</span>
+            <span class="filter-chip {% if job_type == 'Contract' %}active{% endif %}" data-type="Contract">Contract</span>
+        </div>
+    </div>
+
+    <button class="mobile-btn" id="mobileBtn">Show Filters</button>
+
+    <div class="content">
+        <div class="sidebar" id="sidebar">
+            <div class="filter-group">
+                <h4>Salary Filter</h4>
+                <input type="text" name="salary_range" placeholder="Salary Range (e.g., 50000-70000)">
+            </div>
+            
+            <button class="btn-search" style="width:100%;" onclick="applyFilters()">Apply Filters</button>
+        </div>
+
+        <div class="results">
+            <div class="results-header">
+                <div class="results-count">{{ start_index|add:1 }}-{{ end_index }} of {{ total_jobs }} jobs</div>
+                <select class="sort-select">
+                    <option>Relevance</option>
+                    <option>Date Posted</option>
+                    <option>Salary High to Low</option>
+                </select>
+            </div>
+
+            <div id="jobs-container">
+                {% for job in jobs %}
+                <div class="job-card">
+                    <span class="job-id">JOB{{ job.id }}</span>
+                    <h3 class="job-title">{{ job.title }}</h3>
+                    <div class="company">{{ job.company }}</div>
+                    <div class="job-details">
+                        <span>{{ job.location }}</span>
+                        <span>Rs {{ job.salary_range }}</span>
+                        <span>{{ job.job_type }}</span>
+                        <span>{{ job.created_at|timesince }} ago</span>
+                    </div>
+                    <p class="job-desc">{{ job.description|truncatechars_html:150|safe }}</p>
+                    <div class="job-footer">
+                        <div class="tags">
+                            {% for tag in job.tags %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'detail' job.id %}" class="visit-btn">View</a>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No jobs found matching your criteria.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                {% if current_page > 1 %}
+                    <a class="page" href="?page={{ current_page|add:-1 }}&q={{ keyword }}&location={{ location }}&job_type={{ job_type }}&salary_range={{ salary_range }}">← Prev</a>
+                {% endif %}
+
+                {% for i in total_pages|make_list %}
+                    {% with i=i|add:0 %}
+                        <a class="page {% if i == current_page %}active{% endif %}" href="?page={{ i }}&q={{ keyword }}&location={{ location }}&job_type={{ job_type }}&salary_range={{ salary_range }}">{{ i }}</a>
+                    {% endwith %}
+                {% endfor %}
+
+                {% if current_page < total_pages %}
+                    <a class="page" href="?page={{ current_page|add:1 }}&q={{ keyword }}&location={{ location }}&job_type={{ job_type }}&salary_range={{ salary_range }}">Next →</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="visit-modal">
+    <div class="modal-content">
+        <h3 id="modal-job-id">Apply for Job</h3>
+        <p>To apply for this position:</p>
+        <ol class="steps">
+            <li>Note the <strong>Job ID</strong> mentioned above</li>
+            <li>Prepare your CV and required documents</li>
+            <li>Visit our office during working hours</li>
+        </ol>
+        <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+
+
+<script>
+    // Mobile sidebar toggle
+    document.getElementById('mobileBtn').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('active');
+    });
+
+    // Modal functions
+    function closeModal() {
+        document.getElementById('visit-modal').classList.remove('active');
+    }
+
+    function openModal(jobId) {
+        document.getElementById('modal-job-id').innerText = 'Job ID: ' + jobId;
+        document.getElementById('visit-modal').classList.add('active');
+    }
+
+    // Filter chips click
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            applyFilters();
+        });
+    });
+
+    function applyFilters() {
+        const q = document.querySelector('input[name="q"]').value;
+        const location = document.querySelector('input[name="location"]').value;
+        const job_type = document.querySelector('.filter-chip.active').dataset.type;
+        const salary_range = document.querySelector('input[name="salary_range"]').value;
+    
+        const params = new URLSearchParams({q, location, job_type, salary_range});
+        window.location.href = '?' + params.toString();
+    }
+    
+
+
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('show');
+    });
+</script>
+{% endblock extra_js %}

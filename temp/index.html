@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nokhara Job Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --brand-blue: #3f51b5;
+            --brand-dark: #2c3e50;
+            --light-bg: #f8f9fa;
+            --footer-bg: #454d55;
+        }
+
+        body { font-family: sans-serif; }
+
+        /* Navbar */
+        .navbar-brand img { height: 40px; }
+        .btn-outline-dark { border-radius: 4px; border-color: #333; }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: var(--brand-blue);
+            color: white;
+            padding: 60px 0 100px 0;
+        }
+
+        /* Search Bar Floating */
+        .search-container {
+            margin-top: -45px;
+        }
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Category Circle */
+        .category-circle {
+            width: 50px;
+            height: 50px;
+            background-color: purple;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Job Cards */
+        .job-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            transition: transform 0.2s;
+            max-width: 280px;
+        }
+        .job-card:hover { transform: translateY(-5px); }
+        .section-title { color: var(--brand-blue); font-weight: 600; font-size: 1rem; }
+
+        /* Reviews Section */
+        .reviews-section {
+            background-color: #e9ecef;
+            padding: 80px 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: #ccc;
+            padding: 40px 0 20px 0;
+            font-size: 0.85rem;
+        }
+        footer h6 { color: white; font-weight: bold; margin-bottom: 15px; }
+        footer ul { list-style: none; padding: 0; }
+        footer ul li { margin-bottom: 5px; }
+        footer a { color: #ccc; text-decoration: none; }
+        .footer-bottom { border-top: 1px solid #555; padding-top: 20px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://via.placeholder.com/150x50?text=Nokhara+Logo" alt="Nokhara Logo">
+            </a>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-dark btn-sm px-3">Logout</button>
+                <button class="btn btn-outline-dark btn-sm px-3">Post Job</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container text-start">
+            <h1 class="display-5 fw-normal">Welcome to pokhara Job Center</h1>
+            <p>Connecting job seekers with trusted employers.</p>
+            <button class="btn btn-dark btn-sm px-4 py-2" style="background: #283593;">Browse Jobs</button>
+        </div>
+    </section>
+
+    <div class="container search-container">
+        <div class="search-box">
+            <form class="row g-2">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Job title or keyword">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Location">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100" style="background: var(--brand-blue);">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <main class="container py-5">
+        
+        <h5 class="fw-bold mb-3 text-secondary">Categories</h5>
+        <div class="d-flex flex-nowrap overflow-x-auto pb-3 custom-scrollbar" style="gap: 1.5rem; -webkit-overflow-scrolling: touch;">
+            {% for category in categories %}
+            <div class="text-center flex-shrink-0" style="width: 100px;">
+                <a href="?category={{ category.id }}" class="text-decoration-none">
+                    <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mx-auto border" 
+                        style="width: 70px; height: 70px; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='scale(1.1)'" 
+                        onmouseout="this.style.transform='scale(1)'">
+                        
+                        <i class="{{ category.icon_class }} text-primary fs-3"></i>
+                    </div>
+                    <p class="small mt-2 fw-medium text-dark mb-0 text-truncate">{{ category.name }}</p>
+                </a>
+            </div>
+            {% empty %}
+            <p class="text-muted small">No categories found.</p>
+            {% endfor %}
+        </div>
+
+        <style>
+            .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
+        </style>
+
+        <div class="mb-5">
+            <h6 class="section-title">Recently Added</h6>
+            <div class="job-card p-4 text-center mt-3 bg-white">
+                <h4 class="mb-3">housekeeping</h4>
+                <p class="small text-muted mb-3">Lekhnath, Pokhara - Full Time</p>
+                <a href="#" class="text-primary text-decoration-none small fw-bold">View</a>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h6 class="section-title">Top Jobs</h6>
+            <div class="job-card p-4 text-center mt-3 bg-white">
+                <h4 class="mb-3">housekeeping</h4>
+                <p class="small text-muted mb-3">Lekhnath, Pokhara</p>
+                <a href="#" class="text-primary text-decoration-none small fw-bold">View</a>
+            </div>
+        </div>
+
+    </main>
+
+    <section class="reviews-section text-center">
+        <div class="container">
+            <h2 class="mb-4" style="color: var(--brand-blue);">What Our Clients Say</h2>
+            <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
+                Discover how pokhara Job Center connects job seekers and employers through a reliable platform.
+            </p>
+            <p class="mb-5">No reviews yet. Be the first to write one!</p>
+            <button class="btn btn-primary px-4 py-2" style="background: var(--brand-blue);">Write a Review</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-3 mb-4">
+                    <h6>FOR JOBSEEKER</h6>
+                    <ul>
+                        <li><a href="#">Search Jobs</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <h6>FOR EMPLOYER</h6>
+                    <ul>
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Recruitment Services</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <h6>ABOUT US</h6>
+                    <ul>
+                        <li><a href="#">About pokhara Job Center</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <h6>CONTACT US</h6>
+                    <p class="mb-1">Pokhara-8,Nagdhunga</p>
+                    <p class="mb-1"><i class="bi bi-telephone-fill me-2"></i>+977 1 33333</p>
+                    <p><i class="bi bi-envelope-fill me-2"></i>info@pokharajobcenter.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="small">© 2026 pokhara Job Center. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

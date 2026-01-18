@@ -5,8 +5,65 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login,logout
 from .models import Review,Job,JobRequirement,JobBenefit,JobSeekerApplication, Category
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 User = get_user_model()
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")
+
+@login_required
+def update_profile(request):
+    if request.method == "POST":
+        user = request.user
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+
+        if User.objects.filter(username=username).exclude(id=user.id).exists():
+            messages.error(request, "Username already exists")
+            return redirect("profile")
+
+        if User.objects.filter(email=email).exclude(id=user.id).exists():
+            messages.error(request, "Email already exists")
+            return redirect("profile")
+
+        if User.objects.filter(phone=phone).exclude(id=user.id).exists():
+            messages.error(request, "Phone number already exists")
+            return redirect("profile")
+
+        user.username = username
+        user.email = email
+        user.phone = phone
+        user.save()
+
+        messages.success(request, "Profile updated successfully")
+        return redirect("profile")
+
+    return render(request, "profile.html")
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        user = request.user
+        current_password = request.POST.get("current_password")
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if not user.check_password(current_password):
+            messages.error(request, "Current password is incorrect")
+            return redirect("profile")
+
+        if new_password != confirm_password:
+            messages.error(request, "New passwords do not match")
+            return redirect("profile")
+
+        user.set_password(new_password)
+        user.save()
+        messages.success(request, "Password changed successfully")
+        return redirect("login")
+
+    return render(request, "profile.html")
 
 def home(request):
     if request.method == "POST":
@@ -35,8 +92,7 @@ def home(request):
         "top_jobs": top_jobs,  
     }
 
-    return render(request, "visitor/home.html", context)
-    return render(request, "visitor/home.html", context)
+    return render(request, "index.html", context)
 
 def register(request):
     if request.method == "POST":
@@ -79,7 +135,7 @@ def register(request):
         messages.success(request, "Account created successfully")
         return redirect("login")
 
-    return render(request, "visitor/register.html")
+    return render(request, "register.html")
 
 def detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
@@ -89,19 +145,23 @@ def detail(request, job_id):
     job.save()
     if request.method == 'POST':
         full_name = request.POST.get('full_name', '').strip()
-        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
         address = request.POST.get('address', '').strip()
+        cv = request.FILES.get('cv')
 
-        if full_name and email and address:
+        if full_name and phone and address:
             JobSeekerApplication.objects.create(
                 full_name=full_name,
-                email=email,
+                phone=phone,
                 address=address,
-                job=job
+                job=job,
+                cv=cv
             )
-            return JsonResponse({'status': 'success'})
+            messages.success(request, "Application submitted successfully!")
         else:
-            return JsonResponse({'status': 'error', 'message': 'All fields are required.'}, status=400)
+            messages.error(request, "Please fill in all required fields.")
+        return redirect('detail', job_id=job.id)
+            
 
     return render(request, "detail.html", {
         "job": job,
@@ -134,10 +194,11 @@ def login_view(request):
         else:
             messages.error(request, "Invalid username/email or password")
 
-    return render(request, "visitor/login.html")
+    return render(request, "login.html")
 
 def logout_view(request):
-    logout(request)
+    if request.method == "POST":
+        logout(request)
     return redirect('home')
 
         
@@ -185,7 +246,7 @@ def search(request):
         
         'total_pages': (total_jobs + jobs_per_page - 1) // jobs_per_page,
     }
-    return render(request, 'visitor/search.html', context)
+    return render(request, 'search.html', context)
 
 
 def post_job(request):

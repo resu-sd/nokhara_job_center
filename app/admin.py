@@ -13,8 +13,48 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Job)
-admin.site.register(JobBenefit)
-admin.site.register(JobRequirement)
+
+from django.contrib import admin
+from .models import Job, JobRequirement, JobBenefit
+
+
+class JobRequirementInline(admin.TabularInline):
+    model = JobRequirement
+    extra = 0
+
+
+class JobBenefitInline(admin.TabularInline):
+    model = JobBenefit
+    extra = 0
+
+
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'location',
+        'job_type',
+        'category',
+        'expiry_date',
+        'views_count',
+        'created_at',
+    )
+    list_filter = ('job_type', 'category', 'created_at', 'expiry_date')
+    search_fields = ('title', 'location', 'description')
+    date_hierarchy = 'created_at'
+    inlines = [JobRequirementInline, JobBenefitInline]
+
+
+@admin.register(JobRequirement)
+class JobRequirementAdmin(admin.ModelAdmin):
+    list_display = ('text', 'job')
+    search_fields = ('text',)
+
+
+@admin.register(JobBenefit)
+class JobBenefitAdmin(admin.ModelAdmin):
+    list_display = ('text', 'job')
+    search_fields = ('text',)
+
 admin.site.register(JobSeekerApplication)
 admin.site.register(Category)

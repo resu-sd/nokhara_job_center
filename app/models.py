@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from tinymce import models as tinymce_models
+from tinymce.models import HTMLField
+from django.utils.text import slugify
 # Create your models here.
 class User(AbstractUser):
     phone = models.CharField(max_length=10, unique=True,null=True, blank=True)
@@ -35,7 +36,7 @@ class Job(models.Model):
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
     job_type = models.CharField(max_length=50, choices=JOB_TYPE_CHOICES)
     salary_range = models.CharField(max_length=100, blank=True)
-    description = tinymce_models.HTMLField()
+    description = HTMLField()
     expiry_date = models.DateField()
     views_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -63,7 +64,8 @@ class JobBenefit(models.Model):
 
 class JobSeekerApplication(models.Model):
     full_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    cv = models.FileField(upload_to='cvs/')
+    phone = models.CharField(max_length=10)
     address = models.TextField()
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
     applied_at = models.DateTimeField(auto_now_add=True)
@@ -74,14 +76,15 @@ class JobSeekerApplication(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    slug= models.SlugField(unique=True)
+    slug= models.SlugField(unique=True,blank=True)
     color = models.CharField(max_length=7, default='#FF0000', help_text='color name or Hex color code, e.g. #FF0000 or red')
+    icon_class = models.CharField(max_length=100, blank=True, help_text='FontAwesome icon classname only, e.g. book, pen')
 
     def __str__(self):
         return self.name
     
     def save(self, *args, **kwargs):
-        self.slug = self.slug.lower()
+        self.slug = slugify(self.name)
         super().save(*args, **kwargs)
     
     class Meta:
