@@ -7,6 +7,7 @@ Django==6.0.1
 django-allauth==65.14.0
 django-decouple==2.1
 django-tinymce==5.0.0
+git-filter-repo==2.47.0
 idna==3.11
 migrate==0.3.8
 pycparser==2.23
