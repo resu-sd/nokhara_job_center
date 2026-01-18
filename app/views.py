@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib import messages
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login,logout
-from .models import Review,Job,JobRequirement,JobBenefit
+from .models import Review,Job,JobRequirement,JobBenefit,JobSeekerApplication
 from django.contrib.auth import get_user_model
 # Create your views here.
 User = get_user_model()
@@ -74,12 +75,25 @@ def register(request):
     return render(request, "visitor/register.html")
 
 def detail(request, job_id):
-    # Fetch job or 404 if not found
     job = get_object_or_404(Job, id=job_id)
-
-    # Fetch requirements and benefits
     requirements = JobRequirement.objects.filter(job=job)
     benefits = JobBenefit.objects.filter(job=job)
+
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        address = request.POST.get('address', '').strip()
+
+        if full_name and email and address:
+            JobSeekerApplication.objects.create(
+                full_name=full_name,
+                email=email,
+                address=address,
+                job=job
+            )
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'All fields are required.'}, status=400)
 
     return render(request, "detail.html", {
         "job": job,
@@ -87,6 +101,8 @@ def detail(request, job_id):
         "benefits": benefits,
     })
 
+
+   
 
 def faq(request):
      return render(request,"faq.html")
@@ -121,7 +137,50 @@ def logout_view(request):
 
 
 def search(request):
-     return render(request,'visitor/search.html')
+    jobs = Job.objects.all()
+
+
+    keyword = request.GET.get('q')
+    location = request.GET.get('location')
+
+    if keyword:
+        jobs = jobs.filter(title__icontains=keyword)
+    if location:
+        jobs = jobs.filter(location__icontains=location)
+
+   
+    job_type = request.GET.get('job_type')
+    if job_type and job_type != 'All':
+        jobs = jobs.filter(job_type=job_type)
+
+
+    salary_range = request.GET.get('salary_range')
+    if salary_range:
+      jobs = jobs.filter(salary_range__icontains=salary_range)
+
+  
+    page = int(request.GET.get('page', 1))
+    jobs_per_page = 4
+    start_index = (page - 1) * jobs_per_page
+    end_index = start_index + jobs_per_page
+    total_jobs = jobs.count()
+    jobs_page = jobs[start_index:end_index]
+
+    context = {
+        'jobs': jobs_page,
+        'total_jobs': total_jobs,
+        'start_index': start_index,
+        'end_index': min(end_index, total_jobs),
+        'current_page': page,
+        'jobs_per_page': jobs_per_page,
+        'keyword': keyword or '',
+        'location': location or '',
+        'job_type': job_type or 'All',
+        'salary_range': salary_range or '',
+        
+        'total_pages': (total_jobs + jobs_per_page - 1) // jobs_per_page,
+    }
+    return render(request, 'visitor/search.html', context)
 
 
 def post_job(request):
@@ -161,3 +220,4 @@ def post_job(request):
 
     return render(request, 'post_job.html')
   
+

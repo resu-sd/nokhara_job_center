@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>Post a Job - Employer Portal</title>
+    
+
     <style>
         * {
             margin: 0;
@@ -284,6 +286,10 @@
 </head>
 <body>
     {% include 'nav.html' %}
+
+      <textarea>
+        Welcome to TinyMCE!
+      </textarea>
     <div class="job-container">
         <header>
             <div class="logo">JobPortal Employers</div>
@@ -345,7 +351,12 @@
                         
                         <div class="form-group">
                             <label for="jobDescription">Job Description *</label>
-                            <textarea id="jobDescription"  name="jobDescription" class="form-control" placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..." required></textarea>
+                            <textarea id="jobDescription"
+                            name="jobDescription"
+                            class="form-control"
+                            placeholder="Describe the job responsibilities, expectations, and day-to-day tasks..."
+                            required></textarea>
+                  
                         </div>
                   
                 </div>
@@ -443,5 +454,6 @@
             
         });
     </script>
+    
 </body>
 </html>
