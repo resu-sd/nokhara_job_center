@@ -191,7 +191,7 @@
                                 <span class="tag">{{ tag }}</span>
                             {% endfor %}
                         </div>
-                        <a href="#" class="visit-btn">View</a>
+                        <a href="{% url 'detail' job.id %}" class="visit-btn">View</a>
                     </div>
                 </div>
                 {% empty %}
