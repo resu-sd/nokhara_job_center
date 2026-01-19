@@ -8,6 +8,7 @@ admin.site.site_header = "Admin Panel"
 admin.site.site_title = "Admin Portal"
 admin.site.index_title = "Welcome to Admin Panel"
 admin.site.site_url = "https://hehenischal.pythonanywhere.com/"
+
 class CustomUserAdmin(UserAdmin):
     model = User
     fieldsets = UserAdmin.fieldsets + (
