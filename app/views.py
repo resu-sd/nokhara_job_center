@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
@@ -320,10 +321,27 @@ def post_job(request):
 def category_detail(request, category_slug):
     # Get the category object
     category = get_object_or_404(Category, slug=category_slug)
+    jobs_page = Job.objects.filter(category=category)
+    jobs = jobs_page
+    page = int(request.GET.get('page', 1))
+    jobs_per_page = 4
+    start_index = (page - 1) * jobs_per_page
+    end_index = start_index + jobs_per_page
+    total_jobs = jobs.count()
+    jobs_page = jobs[start_index:end_index]
 
-    # Pre-fill request.GET with category as keyword
-    request.GET = request.GET.copy()
-    request.GET['q'] = category.name
-
-    # Reuse your search function logic
-    return search(request)
+    context = {
+        'jobs': jobs_page,
+        'total_jobs': total_jobs,
+        'start_index': start_index,
+        'end_index': min(end_index, total_jobs),
+        'current_page': page,
+        'jobs_per_page': jobs_per_page,
+        'keyword':  '',
+        'location': '',
+        'job_type':  'All',
+        'salary_range': '',
+        
+        'total_pages': (total_jobs + jobs_per_page - 1) // jobs_per_page,
+    }
+    return render(request, 'search.html', context)
