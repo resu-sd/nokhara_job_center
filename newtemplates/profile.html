@@ -46,11 +46,11 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold text-muted text-uppercase">Full Name</label>
-                                    <input type="text" name="name" class="form-control bg-light border-0 py-2" value="{{ user.get_full_name }}" placeholder="Your Name">
+                                    <input type="text" name="name" class="form-control bg-light border-0 py-2" value="{{ user.get_full_name|default:user.username }}" placeholder="Your Name">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold text-muted text-uppercase">Phone Number</label>
-                                    <input type="tel" name="phone" class="form-control bg-light border-0 py-2" value="{{ user.profile.phone }}" placeholder="98XXXXXXXX">
+                                    <input type="tel" name="phone" class="form-control bg-light border-0 py-2" value="{{ user.phone|default:"" }}" placeholder="98XXXXXXXX">
                                 </div>
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary px-5 py-2">Save Changes</button>
@@ -65,8 +65,10 @@
                             {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-12">
+                                    {% if user.has_usable_password %}
                                     <label class="form-label small fw-bold text-muted text-uppercase">Current Password</label>
                                     <input type="password" name="old_password" class="form-control bg-light border-0 py-2" required>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold text-muted text-uppercase">New Password</label>

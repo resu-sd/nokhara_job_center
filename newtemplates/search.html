@@ -1,6 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .search-header {
+        background: white;
+        border-bottom: 1px solid #eee;
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+    }
+    .filter-pill {
+        white-space: nowrap;
+        border-radius: 50px;
+        padding: 6px 16px;
+        font-size: 0.85rem;
+        border: 1px solid #dee2e6;
+        color: #6c757d;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .filter-pill.active {
+        background-color: #3f51b5;
+        border-color: #3f51b5;
+        color: white;
+    }
+    .job-card-result {
+        border-radius: 20px;
+        transition: transform 0.2s;
+        border: 1px solid #f0f0f0;
+    }
+    .job-card-result:active {
+        transform: scale(0.98);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    .category-icon {
+        width: 65px; height: 65px;
+        transition: transform 0.2s;
+        border-radius: 18px !important; /* Squircle look from screenshot */
+    }
+    .category-icon:active { transform: scale(0.95); }
+</style>
 <section class="py-5 text-white text-center" style="background: linear-gradient(135deg, #3f51b5 0%, #283593 100%);">
     <div class="container py-4">
         <nav aria-label="breadcrumb">
@@ -14,91 +54,140 @@
     </div>
 </section>
 
-<div class="container" style="margin-top: -40px;">
-    <div class="card shadow border-0 p-4 rounded-4">
-        <form method="GET" action="{% url 'search' %}">
-            <div class="row g-2">
-                <div class="col-md-5">
-                    <input type="text" name="q" class="form-control form-control-lg bg-light border-0" placeholder="Job title or keyword" value="{{ request.GET.q }}">
-                </div>
-                <div class="col-md-5">
-                    <input type="text" name="location" class="form-control form-control-lg bg-light border-0" placeholder="Location" value="{{ request.GET.location }}">
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Search</button>
+<div class="search-header py-3 shadow-sm">
+    <div class="container">
+        <form method="GET" action="{% url 'search' %}" class="row g-2 align-items-center">
+            <div class="col">
+                <div class="position-relative d-flex align-items-center">
+                    <i class="fas fa-search position-absolute ms-3 text-muted"></i>
+                    <input type="text" name="q" class="form-control form-control-lg border-0 bg-light rounded-pill ps-5" 
+                           placeholder="Search jobs..." value="{{ request.GET.q }}">
                 </div>
             </div>
-            
-            <div class="d-flex flex-wrap gap-2 mt-3">
-                <button type="button" class="btn btn-primary rounded-pill px-3 btn-sm">All Jobs</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">Full Time</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">Part Time</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">Remote</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">Internship</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">Contract</button>
+            <div class="col-auto">
+                <button type="button" class="btn btn-light rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+                    <i class="fas fa-sliders-h text-primary"></i>
+                </button>
             </div>
         </form>
+
+        <div class="d-flex overflow-x-auto gap-2 mt-3 no-scrollbar pb-1">
+            <a href="?type=all" class="filter-pill active">All Results</a>
+            <a href="?type=full-time" class="filter-pill">Full Time</a>
+            <a href="?type=part-time" class="filter-pill">Part Time</a>
+            <a href="?type=remote" class="filter-pill">Remote</a>
+            <a href="?type=intern" class="filter-pill">Internship</a>
+        </div>
     </div>
 </div>
 
-<div class="container mt-5">
-    <div class="row g-4">
-        <aside class="col-lg-3">
-            <div class="card border-0 shadow-sm p-3 rounded-3">
-                <h6 class="fw-bold mb-3">Salary Filter</h6>
-                <form method="GET">
-                    <input type="text" class="form-control mb-3" placeholder="Salary Range (e.g., 50000)">
-                    <button class="btn btn-primary w-100">Apply Filters</button>
-                </form>
+<div class="container mt-4 mb-5">
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">Categories</h6>
+        </div>
+        <div class="d-flex overflow-x-auto pb-2 gap-4 no-scrollbar">
+            {% for category in categories %}
+            <div class="text-center flex-shrink-0" style="width: 80px;">
+                <a href="{% url "category_detail" category.slug %}" class="text-decoration-none">
+                    <div class="category-icon shadow-sm d-flex align-items-center justify-content-center mx-auto border bg-white">
+                        <i class="fas fa-{{ category.icon_class|default:'briefcase' }} text-primary fs-4"></i>
+                    </div>
+                    <p class="small mt-2 fw-medium text-secondary mb-0 text-truncate">{{ category.name }}</p>
+                </a>
             </div>
-        </aside>
+            {% endfor %}
+        </div>
+    </div>
 
-        <main class="col-lg-9">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <p class="text-muted mb-0 small">Showing {{ jobs.count }} jobs</p>
-                <select class="form-select form-select-sm w-auto border-0 bg-white shadow-sm">
-                    <option>Relevance</option>
-                    <option>Newest</option>
-                    <option>Salary: High to Low</option>
-                </select>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-3 px-1">
+        <p class="text-muted small mb-0">Found <strong>{{ jobs.count }}</strong> jobs in Pokhara</p>
+        <div class="dropdown">
+            <button class="btn btn-sm btn-link text-decoration-none text-dark dropdown-toggle small" type="button" data-bs-toggle="dropdown">
+                Sort by: Newest
+            </button>
+            <ul class="dropdown-menu border-0 shadow">
+                <li><a class="dropdown-item" href="#">Newest</a></li>
+                <li><a class="dropdown-item" href="#">Salary: High to Low</a></li>
+            </ul>
+        </div>
+    </div>
 
-            {% for job in jobs %}
-            <div class="card border-0 shadow-sm mb-3 hover-shadow transition">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="fw-bold text-primary mb-1">{{ job.title|title }}</h5>
-                            <div class="d-flex flex-wrap gap-3 text-muted small mb-3">
-                                <span><i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}</span>
-                                <span><i class="fas fa-money-bill-wave me-1"></i>Rs {{ job.salary_min }} - {{ job.salary_max }}</span>
-                                <span><i class="fas fa-briefcase me-1"></i>{{ job.job_type }}</span>
-                                <span><i class="fas fa-clock me-1"></i>{{ job.created_at|timesince }} ago</span>
-                            </div>
-                            <p class="text-secondary small">{{ job.description|truncatewords:20 }}</p>
+    <div class="row g-3">
+        {% for job in jobs %}
+        <div class="col-12">
+            <div class="card job-card-result shadow-sm border-0 p-3">
+                <div class="d-flex gap-3">
+                    <div class="position-relative">
+                        <img src="https://imageplaceholder.net/300x500/eeeeee?text=Image" class="rounded-4 object-fit-cover" style="width: 80px; height: 80px;" alt="Job Icon">
+                    </div>
+                    
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold text-truncate mb-1">{{ job.title }}</h6>
+                            <span class="text-success fw-bold small"> {{ job.salary_range|default:"Negotiable" }}</span>
                         </div>
-                        <div class="text-end">
-                            <span class="badge bg-light text-dark border mb-4">JOB{{ job.id }}</span>
-                            <br>
-                            <a href="{% url 'detail' job.id %}" class="btn btn-outline-primary btn-sm px-4">View Details</a>
+                        <p class="text-primary small fw-bold mb-1">@POKHARAJOCENTER</p>
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            <span class="text-muted small"><i class="fas fa-map-marker-alt me-1 text-primary"></i>{{ job.location }}</span>
+                            <span class="text-muted small"><i class="fas fa-clock me-1 text-primary"></i>{{ job.job_type }}</span>
                         </div>
                     </div>
                 </div>
+                
+                <hr class="my-2 opacity-50">
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Added {{ job.created_at|timesince }} ago</span>
+                    <a href="{% url 'detail' job.id %}" class="btn btn-primary btn-sm px-4 rounded-pill">View Detail</a>
+                </div>
             </div>
-            {% empty %}
-            <div class="text-center py-5">
-                <p class="text-muted">No jobs found matching your criteria.</p>
-            </div>
-            {% endfor %}
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" style="width: 100px; opacity: 0.3;" alt="No jobs">
+            <p class="mt-3 text-muted">No jobs found matching your search.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                </ul>
-            </nav>
-        </main>
+<div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content border-0 rounded-4">
+            <div class="modal-header border-0 px-4 pt-4">
+                <h5 class="fw-bold">Filters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4">
+                <form id="filterForm">
+                    <label class="fw-bold small text-uppercase text-muted mb-2">Category</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3 mb-4">
+                        <option>All Categories</option>
+                        {% for cat in categories %}
+                        <option>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label class="fw-bold small text-uppercase text-muted mb-2">Distance</label>
+                    <input type="range" class="form-range" min="0" max="50" id="distanceRange">
+                    <div class="d-flex justify-content-between small text-muted mb-4">
+                        <span>0 km</span>
+                        <span>50 km</span>
+                    </div>
+
+                    <label class="fw-bold small text-uppercase text-muted mb-2">Employment Type</label>
+                    <div class="row g-2 mb-4">
+                        <div class="col-6"><input type="checkbox" class="btn-check" id="ft" autocomplete="off"><label class="btn btn-outline-primary btn-sm w-100 rounded-pill" for="ft">Full Time</label></div>
+                        <div class="col-6"><input type="checkbox" class="btn-check" id="pt" autocomplete="off"><label class="btn btn-outline-primary btn-sm w-100 rounded-pill" for="pt">Part Time</label></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 px-4 pb-4">
+                <button type="button" class="btn btn-light w-100 py-2 rounded-pill" data-bs-dismiss="modal">Clear All</button>
+                <button type="button" class="btn btn-primary w-100 py-2 rounded-pill">Apply Filters</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

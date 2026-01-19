@@ -9,6 +9,30 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 User = get_user_model()
 
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def set_password_view(request):
+    # If the user already has a password, they shouldn't be here
+    if request.user.has_usable_password():
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = SetPasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Keeps the user logged in
+            messages.success(request, 'Password set successfully! You can now login with your email or Google.')
+            return redirect('home')
+    else:
+        form = SetPasswordForm(request.user)
+    
+    return render(request, 'set_password.html', {'form': form})
+
 @login_required
 def profile(request):
     return render(request, "profile.html")
@@ -17,50 +41,53 @@ def profile(request):
 def update_profile(request):
     if request.method == "POST":
         user = request.user
-        username = request.POST.get("username")
-        email = request.POST.get("email")
+        username = request.POST.get("name")
         phone = request.POST.get("phone")
 
         if User.objects.filter(username=username).exclude(id=user.id).exists():
-            messages.error(request, "Username already exists")
-            return redirect("profile")
-
-        if User.objects.filter(email=email).exclude(id=user.id).exists():
-            messages.error(request, "Email already exists")
+            messages.error(request, "Username already exists",extra_tags="danger")
             return redirect("profile")
 
         if User.objects.filter(phone=phone).exclude(id=user.id).exists():
-            messages.error(request, "Phone number already exists")
+            messages.error(request, "Phone number already exists",extra_tags="danger")
             return redirect("profile")
 
         user.username = username
-        user.email = email
         user.phone = phone
         user.save()
-
-        messages.success(request, "Profile updated successfully")
+        messages.success(request, "Profile updated successfully",extra_tags="success")
         return redirect("profile")
 
     return render(request, "profile.html")
+
 @login_required
 def change_password(request):
     if request.method == "POST":
         user = request.user
+        if user.has_usable_password() is False:
+            new_password = request.POST.get("new_password")
+            confirm_password = request.POST.get("confirm_password")
+            if new_password != confirm_password:
+                messages.error(request, "New passwords do not match",extra_tags="danger")
+                return redirect("profile")
+            user.set_password(new_password)
+            messages.success(request, "Password set successfully",extra_tags="success")
+            user.save()
         current_password = request.POST.get("current_password")
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
 
         if not user.check_password(current_password):
-            messages.error(request, "Current password is incorrect")
+            messages.error(request, "Current password is incorrect",extra_tags="danger")
             return redirect("profile")
 
         if new_password != confirm_password:
-            messages.error(request, "New passwords do not match")
+            messages.error(request, "New passwords do not match",extra_tags="danger")
             return redirect("profile")
 
         user.set_password(new_password)
         user.save()
-        messages.success(request, "Password changed successfully")
+        messages.success(request, "Password changed successfully",extra_tags="success")
         return redirect("login")
 
     return render(request, "profile.html")
@@ -104,25 +131,25 @@ def register(request):
 
         
         if password != confirm_password:
-            messages.error(request, "Passwords do not match")
+            messages.error(request, "Passwords do not match",extra_tags="danger")
             return redirect("register")
 
         
         if not (phone.startswith("97") or phone.startswith("98")) or len(phone) != 10:
-            messages.error(request, "Invalid phone number")
+            messages.error(request, "Invalid phone number",extra_tags="danger")
             return redirect("register")
 
       
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
+            messages.error(request, "Username already exists",extra_tags="danger")
             return redirect("register")
 
         if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already exists")
+            messages.error(request, "Email already exists",extra_tags="danger")
             return redirect("register")
 
         if User.objects.filter(phone=phone).exists():
-            messages.error(request, "Phone number already exists")
+            messages.error(request, "Phone number already exists",extra_tags="danger")
             return redirect("register")
 
        
@@ -132,7 +159,7 @@ def register(request):
             phone=phone,
              password=password)
 
-        messages.success(request, "Account created successfully")
+        messages.success(request, "Account created successfully",extra_tags="success")
         return redirect("login")
 
     return render(request, "register.html")
@@ -159,7 +186,7 @@ def detail(request, job_id):
             )
             messages.success(request, "Application submitted successfully!")
         else:
-            messages.error(request, "Please fill in all required fields.")
+            messages.error(request, "Please fill in all required fields.",extra_tags="danger")
         return redirect('detail', job_id=job.id)
             
 
@@ -192,7 +219,7 @@ def login_view(request):
             auth_login(request, user)
             return redirect("home")
         else:
-            messages.error(request, "Invalid username/email or password")
+            messages.error(request, "Invalid username/email or password",extra_tags="danger")
 
     return render(request, "login.html")
 

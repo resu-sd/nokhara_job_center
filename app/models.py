@@ -2,9 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from tinymce.models import HTMLField
 from django.utils.text import slugify
-# Create your models here.
+
+
+
 class User(AbstractUser):
     phone = models.CharField(max_length=10, unique=True,null=True, blank=True)
+    email = models.EmailField(unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'phone']
 
     def __str__(self):
         return self.username
