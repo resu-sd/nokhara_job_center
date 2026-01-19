@@ -3,6 +3,11 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 from .models import Review,User,Job,JobBenefit,JobRequirement,JobSeekerApplication,Category
 admin.site.register(Review)
+
+admin.site.site_header = "Admin Panel"
+admin.site.site_title = "Admin Portal"
+admin.site.index_title = "Welcome to Admin Panel"
+admin.site.site_url = "https://hehenischal.pythonanywhere.com/"
 class CustomUserAdmin(UserAdmin):
     model = User
     fieldsets = UserAdmin.fieldsets + (
